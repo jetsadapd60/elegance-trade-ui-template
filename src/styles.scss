@@ -1,0 +1,284 @@
+/* You can add global styles to this file, and also import other style files */
+
+// icon primNG
+@import "primeicons/primeicons.css";
+@import "primeng/resources/primeng.min.css";
+
+// custom theme color
+$primary    : #12C28C;
+$warning    : #FFC455;
+$secondary  : #D9D9D9;
+// $success: ;
+// $info: ;
+$danger     : #ED1C24;
+// $light: ;
+// $dark: ;
+
+
+$polished-apple     : #832A2E;
+$silk-crepe-mauve   : #727296;
+$glass-of-milk      : #FCF3DE;
+$barcelona-orange   : #FF9602; // สีฟอนต์ LHC Trading 
+$borg-drone         : #07490A; // สีฟอนต์สถานะ ยืนยันตัวตน
+$paris-green        : #54DB7E; // สีพี้นหลังสถานะ ยืนยันตัวตน
+$chianti            : #734343; // สีพี้นหลังสถานะ ยืนยันตัวตน
+
+$king-nacho         : #FFB800; // สีฟอนต์ราคาทอง USDTHB
+$honey-glaze        : #FFD875; // สีฟอนต์ราคาทอง USDTHB
+
+
+
+//หน้าหลัก
+$warm-haze          : #726A68; // สีฟอนต์ เวลาเปิด-ปิดซื้อขาย 07:00:00 - 02:00:00
+$phantom-mist       : #4A4444; // สีฟอนต์ ราคาเล่งหงษ์
+$shadow-grey        : #B29891; // สีฟอนต์ ทองคำแท่ง 96.50 %
+$shadow-grey        : #B29891; // สีฟอนต์ ทองคำแท่ง 96.50 %
+$glitter-lake       : #42C0FB; // สีฟอนต์ ราคาทองคำแท่ง 96.50 %
+$homeworld          : #1E9CD6; // สีฟอนต์ ราคาทองคำแท่ง 96.50 %
+$gold               : #E4CD91; // สีขอบการ์ด
+
+// หน้าซื้อขาย
+$plum-blossom       : #F3A0A0;
+$plum-blossom       : #F3A0A0;
+$porcelain-goldfish : #E1DADA;
+$pencil-sketch      : #9A9C9F;
+
+// หน้า สินทรัพย์
+$rocket-metallic    : #8C7E7E;
+$graphic-charcoal   : #5C5D60;
+$vista              : #CFACAD;
+$dull               : #727270;
+
+// หน้าต้ังค่า
+$beluga             : #F1F1F1;
+$grey-wolf             : #9C9FA6;
+$maud             : #988182;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// create new class theme
+$custom-theme: (
+  "apple"     :$polished-apple,
+  "mauve"     :$silk-crepe-mauve,
+  "milk"      : $glass-of-milk,
+  "orange"    : $barcelona-orange,
+  "drone"     : $borg-drone,
+  "green"     : $paris-green,
+  "chianti"   : $chianti,
+  "nacho"     : $king-nacho,
+  "glaze"     : $honey-glaze,
+  "haze"      : $warm-haze,
+  "mist"      : $phantom-mist,
+  "grey"      : $shadow-grey,
+  "lake"      : $glitter-lake,
+  "homeworld" : $homeworld,
+  "gold"      : $gold,
+  "blossom"   : $plum-blossom,
+  "goldfish"  : $porcelain-goldfish,
+  "sketch"    : $pencil-sketch,
+  "metallic"  : $rocket-metallic,
+  "charcoal"  : $graphic-charcoal,
+  "vista"     : $vista,
+  "dull"      : $dull,
+  "beluga"    : $beluga,
+  "wolf"    : $grey-wolf,
+  "maud"    : $maud,
+
+);
+
+// spectify font size responesive
+$enable-responsive-font-sizes : true;
+// map theme
+$theme-colors                 :map-merge($custom-theme, $theme-colors);
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;800&display=swap');
+@font-face {
+  font-family: "Montserrat-Light";
+  src: url(./assets/fonts/Montserrat/static/Montserrat-Light.ttf);
+}
+@font-face {
+  font-family: "Montserrat-Regular";
+  src: url(./assets/fonts/Montserrat/static/Montserrat-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Montserrat-Medium";
+  src: url(./assets/fonts/Montserrat/static/Montserrat-Medium.ttf);
+}
+
+@font-face {
+  font-family: "Kanit-Light";
+  src: url(./assets/fonts/Kanit/Kanit-Light.ttf);
+}
+
+@font-face {
+  font-family: "Kanit-Regular";
+  src: url(./assets/fonts/Kanit/Kanit-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Kanit-Medium';
+  src: url(./assets/fonts/Kanit/Kanit-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'Kanit-Thin';
+  src: url(./assets/fonts/Kanit/Kanit-Thin.ttf);
+}
+
+:root {
+  --bs-body-font-family     : "Kanit-Regular"; // font เริ่มต้น
+  --bs-body-font-size       : 16px; // ขนาด font เริ่มต้น
+
+  // สีสำหรับพื้นหลังหน้าล็อคอิน
+  --color-brown-bottom      : #321315;
+  --color-brown-top         : #8F0A10;
+
+  --color-midday-sun-top    : #FFE2A4;
+  --color-midday-sun-bottom : #FFFAEE;
+
+  --color-placeholder       : #333333;
+
+  --color-chianti           : #734343; // สีฟอนต์เมนู
+
+  --color-border            : #E4CD91; // สีขอบการ์ดหน้าหลัก
+
+  --blue-500                : #CFACAD;
+  --yellow-500              : #D9A52C;
+  --green-500               : #F8DEA4;
+}
+
+.montserrat-regular {
+  font-family               : "Montserrat-Regular" !important;
+}
+
+.montserrat-medium {
+  font-family               : "Montserrat-Medium" !important;
+}
+
+::placeholder {
+  color                     : var(--color-placeholder);
+  font-size                 : 1rem;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color                     : var(--color-placeholder);
+  font-size                 : 1rem;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color                    : var(--color-placeholder);
+  font-size                : 1rem;
+}
+
+body {
+  box-sizing              : border-box;
+  outline                 : none !important;
+}
+
+
+// FONT SIZE
+.fz {
+  &-10 {
+    font-size: 10px;
+  }
+  &-12 {
+    font-size: 12px;
+  }
+  &-14 {
+    font-size: 14px;
+  }
+  &-16 {
+    font-size: 16px;
+  }
+  &-18 {
+    font-size: 18px;
+  }
+  &-20 {
+    font-size: 20px;
+  }
+  &-22 {
+    font-size: 22px;
+  }
+  &-22-5 {
+    font-size: 22.5px;
+  }
+  &-24 {
+    font-size: 24px;
+  }
+  &-26 {
+    font-size: 26px;
+  }
+  &-40 {
+    font-size: 40px;
+  }
+}
+
+// FONT FAMILY
+.ff {
+  &-kl {
+    font-family : "Kanit-Light";
+  }
+  &-kr {
+    font-family : "Kanit-Regular";
+  }
+  &-km {
+    font-family : 'Kanit-Medium';
+  }
+  &-kt {
+    font-family : 'Kanit-Thin';
+  }
+
+  &-mr {
+    font-family : 'Montserrat-Regular';
+  }
+  &-mm {
+    font-family : "Montserrat-Medium";
+  }
+}
+
+.h-54 {
+  height        : 54px !important;
+}
+
+.hh {
+  &-8 {
+    height: 8px;
+  }
+  &-45 {
+    height: 45px;
+  }
+  &-50 {
+    height: 50px;
+  }
+  &-54 {
+    height: 54px;
+  }
+  &-96 {
+    height: 96px;
+  }
+}
+
+.ww {
+  &-8 {
+    width: 8px;
+  }
+  &-21 {
+    width: 21px;
+  }
+  &-32 {
+    width: 32px;
+  }
+  &-96 {
+    width: 96px;
+  }
+}
+
+::placeholder {
+  color: #9C9FA6;
+  font-size: 20px;
+}

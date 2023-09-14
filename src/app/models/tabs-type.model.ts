@@ -1,0 +1,1 @@
+export type TabType = 96 | 99;
