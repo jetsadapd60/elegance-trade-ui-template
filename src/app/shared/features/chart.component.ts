@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: 'chart',
@@ -9,7 +9,7 @@ import { Component } from "@angular/core";
     `,
     styles: []
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
     data: any;
 
     options: any;

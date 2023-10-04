@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { RouterService } from "src/app/services/router.service";
 
 @Component({
     selector: 'account-setting',
@@ -14,41 +15,34 @@ import { Component } from "@angular/core";
                 <p class="fz-24 text-warning">ข้อมูลส่วนตัว</p>
             </div>
 
-            <div class="col-9 offset-2">
-                <form class="form">
-                    <div class="form-group d-flex flex-column">
-                        <label for="" class="mb-1 text-mist fz-20">ชื่อ</label>
-                        <input type="text" placeholder="กรุณายืนยันตัวตน" class="px-3 hh-45 border rounded">
-                        <div class="text-end pt-3">
-                            <button class="btn btn-apple text-white pt-1" style="width: 109px; height: 31px">ดำเนินการ</button>
-                        </div>
+            <div class="col-10 offset-1 ">
+                <div class="pb-4 row ">
+                    <label for="" class="fz-20 text-mist">ชื่อ</label>
+                    <div class="col-12 d-flex gap-4 pt-0 fz-16 ">
+                        <input type="text" placeholder="ยังไม่ยืนยันตัวตน" class="px-3 w-100 hh-45 border rounded">
+                        <button (click)="routerService.navigation('/e-kyc')" class="btn btn-namer ff-kr text-white h-100 pt-1" style="min-width: 204px">เริ่มการยืนยันตัวตน</button>
                     </div>
-                </form>
-                <form class="form">
-                    <div class="form-group d-flex flex-column">
-                        <label for="" class="mb-1 text-mist fz-20">บัญชีธนาคาร</label>
-                        <textarea type="text" placeholder="กรุณายืนยันตัวตน" class="px-3 hh-45 border rounded"></textarea>
-                        <div class="pt-3 d-flex justify-content-between">
-                            <small class="text-apple">*รองรับไฟล์นามสกุล jpg,png,pdf ขนาดไม่เกิน 5 mb</small>
-                            <button class="btn btn-apple text-white  pt-1" style="width: 109px; height: 31px">ดำเนินการ</button>
-                        </div>
+                </div>
+                <div class="pb-4 row">
+                <label for="" class="fz-20 text-mist">บัญชีธนาคาร</label>
+                <div class="col-12 d-flex gap-4 pt-0 fz-16">
+                    <input type="text" placeholder="ยังไม่ยืนยันตัวตน" class="px-3 w-100 hh-45 border rounded">
+                    <button (click)="routerService.navigation('/bank-account')" class="btn btn-namer ff-kr text-white h-100 pt-1" style="min-width: 204px">เริ่มการยืนยันบัญชีธนาคาร</button>
+                </div>
+                </div>
+                <div class="pb-4 row">
+                    <label for="" class="fz-20 text-mist">เบอร์มือถือ</label>
+                    <div class="col-12 d-flex gap-4 pt-0 fz-16">
+                        <input type="text" placeholder="กรุณายืนยันตัวตน" class="px-3 hh-45 border w-100 rounded">
                     </div>
-                </form>
-                <form class="form">
-                    <div class="form-group d-flex flex-column">
-                        <label for="" class="mb-1 text-mist fz-20">เบอร์มือถือ</label>
-                        <input type="text" placeholder="กรุณายืนยันตัวตน" class="px-3 hh-45 border rounded">
-                        <div class="text-end pt-3">
-                            <small class="fz-14 text-homeworld text-decoration-underline">เปลี่ยนแปลงหมายเลขโทรศัพท์</small>
-                        </div>
+                </div>
+                <div class="pb-4 row">
+                    <label for="" class="fz-20 text-mist">อีเมล</label>
+                    <div class="col-12 d-flex gap-4 pt-0 fz-16">
+                        <!-- <input type="text" placeholder="กรุณายืนยันตัวตน" class="px-3 hh-45 border w-100 rounded"> -->
+                        <input type="email" placeholder="lhcdemotrading@gmail.com" class="px-3 w-100 hh-45 border rounded">
                     </div>
-                </form>
-                <form class="form">
-                    <div class="form-group d-flex flex-column">
-                        <label for="" class="mb-1 text-mist fz-20">อีเมล</label>
-                        <input type="text" placeholder="lhcdemotrading@gmail.com" class="px-3 hh-45 border rounded">
-                    </div>
-                </form>
+                </div>
             </div>
 
 
@@ -60,7 +54,16 @@ import { Component } from "@angular/core";
         ::placeholder {
             color: #9C9FA6;
             font-size: 20px;
+            font-family : "Kanit-Light";
         }
-    `]
+
+        .btn {
+            box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.10);
+        }
+    `],
+    providers: [RouterService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccountSettingComponent {}
+export class AccountSettingComponent {
+    constructor(protected routerService: RouterService) {}
+}

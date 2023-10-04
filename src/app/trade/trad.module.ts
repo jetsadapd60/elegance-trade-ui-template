@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { TradRoutingModule } from './trad-routing.module';
 import { TradComponent } from './trad.component';
 import { SharedModule } from '../shared/shared.module';
+
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -11,8 +13,10 @@ import { SharedModule } from '../shared/shared.module';
     TradComponent
   ],
   imports: [
+    CommonModule,
     SharedModule,
     TradRoutingModule,
+    ConfirmDialogModule
 
   ]
 })

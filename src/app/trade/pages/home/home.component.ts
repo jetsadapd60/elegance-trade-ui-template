@@ -1,6 +1,6 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
-declare const TradingView: any;
+// declare const TradingView: any;
 
 @Component({
   selector: 'app-home',

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-interface City {
-  name: string;
-  code: string;
-}
+// interface City {
+//   name: string;
+//   code: string;
+// }
 
 @Component({
   selector: 'buy-sell-form',

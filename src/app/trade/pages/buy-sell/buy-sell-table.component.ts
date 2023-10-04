@@ -133,8 +133,8 @@ export interface Product {
                     </td>
                     <td class="px-0 py-0">
                       <div class="row py-0 text-center">
-                        <div class="col-12 py-1 ff-mr fz-{{!isLageView?'16':'16'}}">11:00:00</div>
-                        <div class="col-12 py-1 ff-kt text-white">s</div>
+                        <div class="col-12 py-1 ff-mr fz-16">11/Sep/2566</div>
+                        <div class="col-12 py-1 ff-kt fz-14 text-dull">11:00:00</div>
                       </div>
                     </td>
                     <td class="px-0 py-0">
@@ -473,6 +473,6 @@ export class BuySellTableComponent implements OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.isLageView)
+    console.log(changes)
   }
 }

@@ -1,12 +1,12 @@
-import { style } from '@angular/animations';
+
 import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 
-interface DotStatus {
-  bgColor: string;
-  width: number;
-  height: number;
-  radius: number;
-}
+// interface DotStatus {
+//   bgColor: string;
+//   width: number;
+//   height: number;
+//   radius: number;
+// }
 
 @Directive({
   selector: '[dotStatus]',

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 @Component({
-    selector: 'sign-in',
+    selector: 'app-sign-in',
     template: `
         <div class="container h-100" style="height: ;">
             <div class="card border-0 px-md-4">
                 <div class="card-boy">
-                    <div class="row mt-3 mt-lg-3 mt-xxl-5 pt-xl-5">
+                    <div class="row mt-3 mt-lg-3">
                         <div class="d-none d-lg-block col-lg-7 col-xl-7 offset-xl-0 shadow-c p-0 rounded-start-5 overflow-hidden left-wrap">
                             <img src="assets/images/image-hero-signin.svg" class="hero-image" alt="">
                         </div>

@@ -460,6 +460,6 @@ export class ClearingTableComponent implements OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.isLageView)
+    console.log(changes);
   }
 }

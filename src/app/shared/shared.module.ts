@@ -4,11 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FooterComponent } from './features/footer.component';
 import { TradingViewComponent } from './features/trading-view.component';
-import { SwitchesComponent } from './features/switches.component';
-import { BuySellTabsComponent } from './features/buy-sell-tabs.component';
-import { BuySellFormComponent } from './features/buy-sell-form.component';
 import { DotStatusDirective } from './directives/dot-status.directive';
-import { BuySellTableComponent } from './features/buy-sell-table.component';
 
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -20,6 +16,16 @@ import { ChartComponent } from './features/chart.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ClearingTableComponent } from './features/clearing-table.component';
 import { AvatarModule } from 'primeng/avatar';
+import { OtpAndPinComponent } from './features/otp-pin.component';
+import { SwitchesComponent } from './features/switches.component';
+
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { BuySellConfirmComponent } from './features/buy-sell-confirm.component';
+import { HeaderComponent } from './features/header.component';
+import { FootterComponent } from './features/footter.component';
+import { ModalComponent } from './features/modal.component';
+import { ButtonComponent } from './features/button.component';
 
 @NgModule({
   imports: [
@@ -34,30 +40,40 @@ import { AvatarModule } from 'primeng/avatar';
     ChartModule,
     RadioButtonModule,
     InputNumberModule,
-    AvatarModule
+    AvatarModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   declarations: [
     FooterComponent,
     TradingViewComponent,
-    SwitchesComponent,
-    BuySellTabsComponent,
-    BuySellFormComponent,
     DotStatusDirective,
-    BuySellTableComponent,
-    ChartComponent,
-    ClearingTableComponent
-  ],
-  exports: [
-    CommonModule,
-    FooterComponent,
-    TradingViewComponent,
-    SwitchesComponent,
-    BuySellTabsComponent,
-    BuySellFormComponent,
-    BuySellTableComponent,
     ChartComponent,
     ClearingTableComponent,
-    AvatarModule
+    OtpAndPinComponent,
+    SwitchesComponent,
+    BuySellConfirmComponent,
+    HeaderComponent,
+    FootterComponent,
+    ModalComponent,
+    ButtonComponent
+  ],
+  exports: [
+    FooterComponent,
+    TradingViewComponent,
+    ChartComponent,
+    ClearingTableComponent,
+    AvatarModule,
+    OtpAndPinComponent,
+    SwitchesComponent,
+    TableModule,
+    InputNumberModule,
+    DotStatusDirective,
+    BuySellConfirmComponent,
+    HeaderComponent,
+    FootterComponent,
+    ModalComponent,
+    ButtonComponent
   ],
 })
 export class SharedModule {}

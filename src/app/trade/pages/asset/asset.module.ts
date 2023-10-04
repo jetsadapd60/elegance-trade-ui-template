@@ -11,6 +11,7 @@ import { SharedModule } from '../../../shared/shared.module';
     AssetComponent
   ],
   imports: [
+    CommonModule,
     SharedModule,
     AssetRoutingModule,
   ]

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-asset',
@@ -195,7 +195,11 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
         <div class="card border-gradient h-100 rounded-0 rounded-bottom-4">
           <div class="card-body px-0">
             <div class="text-center border-bottom py-2">
-              <h4 class="m-0 fz-24 text-charcoal mb-1">เงินหลักประกัน</h4>
+              <h4 class="m-0 fz-24 text-charcoal mb-1">
+                <!-- <img src="assets/images/dollar-icon.svg" alt=""> -->
+                <span class="text-homeworld fz-26 ff-mm">$</span>
+                <span> เงินหลักประกัน</span>
+              </h4>
               <h4 class="m-0 fz-24 text-lake ff-mm">2,000,00 <span class="ff-kl">บาท</span></h4>
             </div>
             <div class="row mx-0 px-3 border-bottom py-2">
@@ -227,7 +231,10 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
               </div>
             </div>
             <div class="text-center border-bottom py-2">
-              <h4 class="m-0 fz-24 text-mist mb-1">ทองหลักประกัน</h4>
+              <h4 class="align-items-start gap-1 d-flex fz-24 justify-content-center m-0 mb-1 text-mist">
+                <img src="assets/images/gold-bar-1.svg" class="ww-36" alt="">
+                <span>ทองหลักประกัน</span>
+              </h4>
               <h4 class="m-0 fz-24 text-vista ff-mm">3,850,000 <span class="ff-kl">บาท</span></h4>
             </div>
             <div class="row mx-0 px-3 border-bottom py-2">
@@ -272,16 +279,24 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
                 <p class="m-0 fz-16 text-charcoal ff-mm">0 <span class="ff-kr">บาท</span></p>
               </div> -->
             </div>
-            <!-- <div class="row mx-0 px-3 py-2">
-              <div class="col-12 py-0 d-flex justify-content-between pd-1">
+            <div class="row mx-0 px-3 py-2">
+              <!-- <div class="col-12 py-0 d-flex justify-content-between pd-1">
                 <p class="m-0 fz-16 text-charcoal">Call</p>
                 <p class="m-0 fz-16 text-danger ff-mm">5,850,000 <span class="ff-kr text-charcoal">บาท</span></p>
               </div>
               <div class="col-12 py-0 d-flex justify-content-between">
                 <p class="m-0 fz-16 text-charcoal">Force</p>
                 <p class="m-0 fz-16 text-charcoal ff-mm">0 <span class="ff-kr">บาท</span></p>
+              </div> -->
+              <div class="col-12 text-center">
+                <img src="assets/images/arrow-refresh.svg" type="button" class="me-2 ww-43" alt="">
+                <span class="fz-14 text-homeworld ff-mm" type="button">Refresh</span>
               </div>
-            </div> -->
+              <div class="col-12 pt-0 text-center fz-16 text-dull">
+                <span class=" pe-1">*Update ล่าสุด</span>
+                <span>{{nowTime|date:'hh:mm:ss'}}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -301,12 +316,15 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
       background: linear-gradient(0deg, rgba(66,62,54,1) 0%, rgba(154,143,117,1) 100%);
     }
 
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssetComponent implements AfterViewInit {
 
   @ViewChild('top') topEl!: ElementRef;
   @ViewChild('content') content!: ElementRef;
+
+  nowTime = new Date();
 
 
   ngAfterViewInit(): void {

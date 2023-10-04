@@ -51,8 +51,14 @@ $dull               : #727270;
 
 // หน้าต้ังค่า
 $beluga             : #F1F1F1;
-$grey-wolf             : #9C9FA6;
-$maud             : #988182;
+$grey-wolf          : #9C9FA6;
+$maud               : #988182;
+$namer              : #28B5F6;
+$red-hot-mama       : #A91F27;
+$yellow-indian       : #E4A756;
+
+
+$million-grey       : #999999;
 
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
@@ -84,6 +90,10 @@ $custom-theme: (
   "beluga"    : $beluga,
   "wolf"    : $grey-wolf,
   "maud"    : $maud,
+  "namer"    : $namer,
+  "red-hot-mama"    : $red-hot-mama, 
+  "yellow-indian"    : $yellow-indian,
+  "million-grey"    : $million-grey,
 
 );
 
@@ -213,6 +223,9 @@ body {
   &-26 {
     font-size: 26px;
   }
+  &-36 {
+    font-size: 36px;
+  }
   &-40 {
     font-size: 40px;
   }
@@ -221,23 +234,23 @@ body {
 // FONT FAMILY
 .ff {
   &-kl {
-    font-family : "Kanit-Light";
+    font-family : "Kanit-Light" !important;
   }
   &-kr {
-    font-family : "Kanit-Regular";
+    font-family : "Kanit-Regular" !important;
   }
   &-km {
-    font-family : 'Kanit-Medium';
+    font-family : 'Kanit-Medium' !important;
   }
   &-kt {
-    font-family : 'Kanit-Thin';
+    font-family : 'Kanit-Thin' !important;
   }
 
   &-mr {
-    font-family : 'Montserrat-Regular';
+    font-family : 'Montserrat-Regular' !important;
   }
   &-mm {
-    font-family : "Montserrat-Medium";
+    font-family : "Montserrat-Medium" !important;
   }
 }
 
@@ -248,6 +261,9 @@ body {
 .hh {
   &-8 {
     height: 8px;
+  }
+  &-40 {
+    height: 40px;
   }
   &-45 {
     height: 45px;
@@ -273,12 +289,43 @@ body {
   &-32 {
     width: 32px;
   }
+  &-36 {
+    width: 36px;
+  }
+
+  &-43 {
+    width: 43px;
+  }
   &-96 {
     width: 96px;
+  }
+  &-204 {
+    width: 204px !important;
+  }
+  &-347 {
+    width: 347px !important;
+  }
+  &-150 {
+    width: 150px;
   }
 }
 
 ::placeholder {
   color: #9C9FA6;
   font-size: 20px;
+}
+
+.overay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100%;
+  fill: rgba(108, 101, 101, 0.50);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+  background: #6C656580;
+  padding-top: 100px;
+  // display: flex;
+  // justify-content: center;
 }

@@ -1,12 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { MenuModel } from '../models/menu.medel';
+import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/api';
 @Component({
   selector: 'app-trad',
   template: `
 
+  <app-modal></app-modal>
+  <app-buy-sell-confirm *ngIf="0"></app-buy-sell-confirm>
+
     <!--  -->
     <div class="container rounded-bottom-4">
-      <div class="card bg-milk rounded-0 rounded-bottom-4 py-0">
+      <div class="card top-bar bg-milk rounded-0 rounded-bottom-4 py-0">
         <div class="card-body py-0" style="min-height: 88px;">
           <div class="row py-2 pb-1">
             <div class="col-xl-3 text-center text-xl-start ">
@@ -126,7 +130,7 @@ import { MenuModel } from '../models/menu.medel';
     </div>
 
 
-    <div class="container">
+    <div class="container"> 
       <div class="card rounded-0 rounded-bottom-4 border-0 wrap-content shadow">
         <div class="card-body">
           <router-outlet></router-outlet>
@@ -197,16 +201,29 @@ import { MenuModel } from '../models/menu.medel';
         background: linear-gradient(0deg, rgba(54,51,44,1) 0%, rgba(154,143,117,1) 100%);
       }
 
+      .top-bar {
+        /* box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.05); */
+      }
+
+      .card {
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.05);
+      }
+
       .wrap-content {
         background: #FCF3DE;
       }
 
   `],
+  providers: [ConfirmationService, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TradComponent {
 
-  constructor(private ref: ChangeDetectorRef) {}
+  constructor(
+                private ref: ChangeDetectorRef,
+                private confirmationService: ConfirmationService, 
+                private messageService: MessageService) {}
+
 
   menus: MenuModel[] = [
     { id: '101', label: 'หน้าหลัก', icon: 'assets/images/icons-menu/home.svg', link: '/' },
@@ -219,5 +236,29 @@ export class TradComponent {
   get nowDate() {
     return new Date();
   }
+
+
+  confirm1() {
+    this.confirmationService.confirm({
+        icon: 'pi pi-cloud',
+        accept: this.accept,
+        reject: (type: ConfirmEventType) => {
+            switch (type) {
+                case ConfirmEventType.REJECT:
+                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                    break;
+                case ConfirmEventType.CANCEL:
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+                    break;
+            }
+        }
+    });
+}
+
+  private accept() {
+    console.log('ok')
+  }
+
+  
 
 }
