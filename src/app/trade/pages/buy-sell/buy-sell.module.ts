@@ -8,16 +8,16 @@ import { BuySellTableComponent } from './buy-sell-table.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuySellTabsComponent } from './buy-sell-tabs.component';
 import { BuySellFormComponent } from './buy-sell-form.component';
+import { OrderStatePipe } from 'src/app/shared/pipes/order-state.pipe';
 
 
 @NgModule({
   declarations: [
     BuySellComponent,
     BuySellTableComponent,
-    BuySellComponent,
-    BuySellTableComponent,
     BuySellTabsComponent,
     BuySellFormComponent,
+    OrderStatePipe
   ],
   imports: [
     CommonModule,

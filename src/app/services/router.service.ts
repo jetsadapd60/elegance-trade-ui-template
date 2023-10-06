@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class RouterService {
 
   constructor(private router: Router, private atr: ActivatedRoute) {}

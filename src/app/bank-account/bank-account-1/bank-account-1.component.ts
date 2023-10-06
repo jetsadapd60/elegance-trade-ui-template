@@ -25,8 +25,17 @@ import { RouterService } from "src/app/services/router.service";
                         </div>
                         <div class="form__group">
                             <div class="form__label text-mist ff-kl">แนบเอกสาร</div>
+                            
                             <div class="d-flex gap-2 align-items-end">
-                                <input type="text" name="" disabled value="file: " id="" class="px-2 w-100 form__input text-dull ff-kl bg-white border-dark border-bottom-5 border-top-0 border-end-0 border-start-0">
+                                <input readonly type="text" name="" disabled value="" id="" class="px-2 w-100 form__input text-dull ff-kl border-dark border-bottom-5 border-top-0 border-end-0 border-start-0">
+                                <p class="m-0 text-homeworld ff-kl w-25 text-decoration-underline form__link-text" type="button">เลือกไฟล์</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-end">
+                                <input readonly type="text" name="" disabled value="" id="" class="px-2 w-100 form__input text-dull ff-kl border-dark border-bottom-5 border-top-0 border-end-0 border-start-0">
+                                <p class="m-0 text-homeworld ff-kl w-25 text-decoration-underline form__link-text" type="button">เลือกไฟล์</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-end">
+                                <input readonly type="text" name="" disabled value="" id="" class="px-2 w-100 form__input text-dull ff-kl border-dark border-bottom-5 border-top-0 border-end-0 border-start-0">
                                 <p class="m-0 text-homeworld ff-kl w-25 text-decoration-underline form__link-text" type="button">เลือกไฟล์</p>
                             </div>
                             <span class="text-dull ff-kl">*รองรับไฟล์นามสกุล jpg,png,pdf ขนาดไม่เกิน 3 Mb</span>
@@ -62,7 +71,7 @@ import { RouterService } from "src/app/services/router.service";
 
                 &__group:nth-child(3) {
                     input {
-                        width: 80%;
+                        width: 60%;
                     }
                     
                     .form__link-text {
@@ -121,7 +130,7 @@ import { RouterService } from "src/app/services/router.service";
                 &__group:nth-child(3) {
                     input {
                         width: 80%;
-                        height: 48px;
+                        height: 35px;
                     }
                     
                     .form__link-text {

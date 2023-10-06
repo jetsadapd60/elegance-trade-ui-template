@@ -15,7 +15,7 @@ export class ModalService {
         It is called in the constructor of the `ModalService` class to ensure that the `modalData` subject
         is initialized with an initial value of `undefined`. 
         */
-    this.close();
+    // this.close();
   }
 
   /**
@@ -23,6 +23,7 @@ export class ModalService {
    * @returns The `get modal$()` method is returning an `Observable` of type `Modal | undefined`.
    */
   get modal$(): Observable<Modal | undefined> {
+    console.log('test')
     return this.modalData.asObservable();
   }
 
@@ -31,6 +32,7 @@ export class ModalService {
    * @param {Modal} modal - The parameter "modal" is of type "Modal".
    */
   open(modal: Modal) {
+    console.log(modal);
     if (modal) this.modalData.next(modal);
   }
 

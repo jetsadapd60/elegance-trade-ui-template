@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterService } from "src/app/services/router.service";
 
 @Component({
-    selector: 'ekyc-page-5',
+    selector: 'app-ekyc-page-5',
     template: `
     
     <div class="wrap px-5 pt-3 pt-xl-5">
@@ -166,7 +166,6 @@ import { RouterService } from "src/app/services/router.service";
     }
     
     `],
-    providers: [RouterService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EkycPage5Component {

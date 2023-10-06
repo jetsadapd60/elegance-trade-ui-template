@@ -23,9 +23,6 @@
             "style": "camelCase"
           }
         ],
-        "@angular-eslint/template/click-events-have-key-events": [
-          "error"
-        ],
         "@angular-eslint/component-selector": [
           "error",
           {

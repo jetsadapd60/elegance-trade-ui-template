@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { BuySellConfirmService } from 'src/app/services/buy-sell-confirm.service';
 
 @Component({
   selector: 'app-buy-sell',
@@ -10,23 +11,23 @@ import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren } from '@
     <div id class="col-xl-8">
       <div #top class="card rounded-0 rounded-top-4 border-0" style="min-height: 80px;">
         <div class="card-body py-1">
-          <div class="row pt-1">
-            <div class="col-md-3 border-0 border-end">
-              <span class="text-chianti">วงเงินขาย</span>
-              <p class="text-center text-lake mb-0 ff-mm fz-26">3,000 Bg</p>
+          <div class="row pt-1 ">
+            <div class="col-md-4 border-0 border-end">
+              <span class="text-chianti">วงเงินขายคงเหลือ</span>
+              <p class="text-end text-lake mb-0 ff-mm fz-26">3,000 Bg</p>
             </div>
-            <div class="col-md-3 border-0 border-end">
-              <span class="text-chianti">วงเงินซื้อ</span>
-              <p class="text-center text-homeworld mb-0 ff-mm fz-26">3,000 Bg</p>
+            <div class="col-md-4 border-0 border-end">
+              <span class="text-chianti">วงเงินซื้อคงเหลือ</span>
+              <p class="text-end text-homeworld mb-0 ff-mm fz-26">3,000 Bg</p>
             </div>
-            <div class="col-md-3 border-0 border-end">
+            <div class="col-md-4 border-0  border-0">
               <span class="text-chianti">ทองฝาก</span>
-              <p class="text-center text-nacho mb-0 ff-mm fz-26">3,000 Bg</p>
+              <p class="text-end text-nacho mb-0 ff-mm fz-26">3,000 Bg</p>
             </div>
-            <div class="col-md-3 border-0">
+            <!-- <div class="col-md-3 border-0">
               <span class="text-chianti">รอชำระ/ส่งมอบ</span>
               <p class="text-center text-blossom mb-0 ff-mm fz-26">15/30 Bg</p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -64,20 +65,20 @@ import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren } from '@
         <div class="card-body" [ngClass]="{'p-0': !showTradeView}">
           <trading-view [styleView]="1" *ngIf="showTradeView; else viewTable"></trading-view>
         </div>
-        <ng-template #viewTable>
-        <buy-sell-table></buy-sell-table>
-      </ng-template>
+          <ng-template #viewTable>
+            <app-buy-sell-table></app-buy-sell-table>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="col-xl-4 mt-3 mt-xl-0">
+        <buy-sell-tabs [defaultTab]="96" (changeTab)="onChangeTab($event)"></buy-sell-tabs>
+        <app-buy-sell-form></app-buy-sell-form>
       </div>
     </div>
 
-    <div class="col-xl-4 mt-3 mt-xl-0">
-      <buy-sell-tabs [defaultTab]="96" (changeTab)="onChangeTab($event)"></buy-sell-tabs>
-      <buy-sell-form></buy-sell-form>
-    </div>
-  </div>
-
     <ng-container *ngIf="showTradeView" >
-      <buy-sell-table [showTradeView]="showTradeView" class=""></buy-sell-table>
+      <app-buy-sell-table [showTradeView]="showTradeView" class=""></app-buy-sell-table>
     </ng-container>
   `,
   styles: [
@@ -93,6 +94,8 @@ export class BuySellComponent implements AfterViewInit {
   @ViewChildren('top') top!: QueryList<ElementRef>;
 
   showTradeView = true;
+
+  constructor(public buySellConfirmService: BuySellConfirmService) {}
 
 
   /**

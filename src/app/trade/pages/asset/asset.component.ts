@@ -8,9 +8,47 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
 
     <!-- ซ้าย -->
       <div class="col-xl-8">
-        <div class="card btn-gradient-2 rounded-0 border bg-transaction rounded-bottom-4" style="height: 98px;">
+        <div class="card btn-gradient-2 rounded-0  bg-transaction rounded-bottom-4" style="height: 98px;">
           <div #top class="card-body py-1">
-            ok
+            <div class="row">
+              <div class="col-3 ">
+                <div>
+                  <p class="mb-1 text-white">ทำธุรกรรม</p>
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex gap-3">
+                      <label for="deposit" class="radio-style">
+                        <input checked class="radio-style__input" type="radio" name="transaction" id="deposit">
+                        <span class="radio-style__design"></span>
+                        <span class="radio-style__value text-white">ฝาก</span>
+                      </label>
+                    </div>
+                    <div class="d-flex gap-3">
+                      <label for="widthdraw" class="radio-style">
+                        <input class="radio-style__input" type="radio" name="transaction" id="widthdraw">
+                        <span class="radio-style__design"></span>
+                        <span class="radio-style__value text-white">ถอน</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-9 ">
+                <p class="mb-1 text-white">ประเภท</p>
+                <div class="row">
+                  <div class="col-8 py-0 ">
+                  <div class="custom-select">
+                    <select class="w-100 text-center py-0">
+                      <option selected value="1">ทองคำแท่ง 96.50%</option>
+                      <option value="2">ทองคำแท่ง 99.99%</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="col-4 py-0 ">
+                    <app-button height="35px" bgColor="#FFC455" borderRadius="5px" textColor="#0D0B0B">ดำเนินการ</app-button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div #content class="d-flex flex-column flex-xl-row gap-3 pt-3">
@@ -54,12 +92,12 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                       </div>
 
                       <div class="d-flex justify-content-between  pb-1">
-                        <small class="fz-14 text-dull">(มูลค่าต้นทุนเฉลี่ย)</small>
+                        <small class="fz-14 text-dull">มูลค่าต้นทุน</small>
                         <p class="m-0 fz-14 text-homeworld ff-mm">32,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
                       <div class="d-flex justify-content-between  pb-1">
-                        <small class="fz-14 text-dull">มูลค่ารวม</small>
+                        <small class="fz-14 text-dull">มูลค่า ณ ปัจจุบัน</small>
                         <p class="m-0 fz-14 text-homeworld text-danger ff-mm">480,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
@@ -82,12 +120,12 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
-                        <small class="fz-14 text-dull">(มูลค่าต้นทุนเฉลี่ย)</small>
+                        <small class="fz-14 text-dull">มูลค่าต้นทุน</small>
                         <p class="m-0 fz-14 text-homeworld ff-mm">968,700 <span class="ff-kr">บาท</span></p>
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
-                        <small class="fz-14 text-dull">มูลค่ารวม</small>
+                        <small class="fz-14 text-dull">มูลค่า ณ ปัจจุบัน</small>
                         <p class="m-0 fz-14 text-homeworld text-danger ff-mm">480,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
@@ -106,7 +144,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                 <div class="card-body p-0 py-3">
                   <div class="py-2 d-flex align-items-center gap-2 justify-content-center">
                     <img src="assets/images/lhc-gold-95.svg" class="ww-32" alt="">
-                    <small class="text-warning fz-24">ทองคำแท่ง 96.50%</small>
+                    <small class="text-warning fz-24">ทองคำแท่ง 99.99%</small>
                   </div>
                   <div class="d-flex justify-content-center text-center">
                     <!-- CHART -->
@@ -120,10 +158,10 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                     <div class="col-11 ps-0 py-0">
                       <div class="d-flex justify-content-between pb-1">
                         <p class="m-0 fz-18 text-charcoal">ทองฝาก</p>
-                        <p class="m-0 fz-18 text-charcoal ff-mm">30 Bg</p>
+                        <p class="m-0 fz-18 text-charcoal ff-mm">30 Kg</p>
                       </div>
                       <div class="d-flex justify-content-between">
-                        <small class="fz-14 text-dull">มูลค่ารวม ณ ปัจจุบัน</small>
+                        <small class="fz-14 text-dull">มูลค่าต้นทุน</small>
                         <p class="m-0 fz-14 text-homeworld ff-mm">968,700 <span class="ff-kr">บาท</span></p>
                       </div>
                     </div>
@@ -137,16 +175,16 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                     <div class="col-11 ps-0 py-0">
                       <div class="d-flex justify-content-between  pb-1">
                         <p class="m-0 fz-18 text-charcoal">ทองรอชำระ(ซื้อ)</p>
-                        <p class="m-0 fz-18 text-charcoal ff-mm">15 Bg</p>
+                        <p class="m-0 fz-18 text-charcoal ff-mm">15 Kg</p>
                       </div>
 
                       <div class="d-flex justify-content-between  pb-1">
-                        <small class="fz-14 text-dull">(มูลค่าต้นทุนเฉลี่ย)</small>
+                        <small class="fz-14 text-dull">มูลค่าต้นทุน</small>
                         <p class="m-0 fz-14 text-homeworld ff-mm">32,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
                       <div class="d-flex justify-content-between  pb-1">
-                        <small class="fz-14 text-dull">มูลค่ารวม</small>
+                        <small class="fz-14 text-dull">มูลค่ารวม ณ ปัจจุบัน</small>
                         <p class="m-0 fz-14 text-homeworld text-danger ff-mm">480,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
@@ -165,16 +203,16 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
                     <div class="col-11 ps-0 py-0">
                       <div class="d-flex justify-content-between pb-1">
                         <p class="m-0 fz-18 text-charcoal">ทองรอส่งมอบ(ขาย)</p>
-                        <p class="m-0 fz-18 text-charcoal ff-mm">3 Bg</p>
+                        <p class="m-0 fz-18 text-charcoal ff-mm">3 Kg</p>
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
-                        <small class="fz-14 text-dull">(มูลค่าต้นทุนเฉลี่ย)</small>
+                        <small class="fz-14 text-dull">มูลค่าต้นทุน</small>
                         <p class="m-0 fz-14 text-homeworld ff-mm">968,700 <span class="ff-kr">บาท</span></p>
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
-                        <small class="fz-14 text-dull">มูลค่ารวม</small>
+                        <small class="fz-14 text-dull">มูลค่า ณ ปัจจุบัน</small>
                         <p class="m-0 fz-14 text-homeworld text-danger ff-mm">480,000 <span class="ff-kr">บาท</span></p>
                       </div>
 
@@ -314,6 +352,88 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
     .bg-transaction {
       background: rgb(66,62,54);
       background: linear-gradient(0deg, rgba(66,62,54,1) 0%, rgba(154,143,117,1) 100%);
+    }
+
+    .radio-style {
+      display: flex;
+      align-items: center;
+      /* margin: 15px 20px; */
+      cursor: pointer;
+
+      &__input {
+        opacity: 0;
+        /* display: none; */
+        
+        &:checked~.radio-style__design {
+          transition: all .4s;
+          background: #FFC455 !important;
+        }
+      }
+
+
+      &__design {
+        width: 14px;
+        height: 14px;
+        background: #ffffff;
+        border-radius: 100%;
+        margin-right: 15px;
+      }
+      
+      &__value {
+        font-size: 18px;
+      }
+    }
+
+    .custom-select {
+      select {
+        /* display: none; */
+        height: 29px;
+        border-radius: 5px;
+        font-size: 14px;
+        border: 1px solid #C7C7C7;
+        
+
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right .5rem center;
+        /* background-size: 2em; */
+    }}
+
+    @media (min-width: 1200px) {
+
+    .radio-style {
+
+
+      &__design {
+        width: 16px;
+        height: 16px;
+      }
+      
+      &__value {
+        font-size: 24px;
+      }
+    }
+
+    .custom-select {
+      select {
+        /* display: none; */
+        height: 35px;
+        border-radius: 5px;
+        font-size: 16px;
+        border: 1px solid #C7C7C7;
+        
+
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right .5rem center;
+        /* background-size: 2em; */
+    }}
     }
 
   `],

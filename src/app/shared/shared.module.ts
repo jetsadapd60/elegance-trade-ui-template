@@ -59,6 +59,9 @@ import { ButtonComponent } from './features/button.component';
     ButtonComponent
   ],
   exports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     FooterComponent,
     TradingViewComponent,
     ChartComponent,

@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { BuySellConfirmService } from "src/app/services/buy-sell-confirm.service";
 
 @Component({
     selector: 'app-buy-sell-confirm',
     template: `
 
-    <div class="overay">
+    <div class="overay" *ngIf="(buySellConfirmService.modal$|async)">
         <div class="confirm ">
-            <div class="confirm__close" type="button">
+            <div class="confirm__close" (click)="onCloseConfirm()" role="presentation" type="button">
                 <span class="ff-mr">X</span>
             </div>
             <div class="confirm__head ">
@@ -195,4 +196,14 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BuySellConfirmComponent { }
+export class BuySellConfirmComponent {
+
+    constructor(public buySellConfirmService: BuySellConfirmService) {
+        this.buySellConfirmService.modal$.subscribe(i=>console.log('------', i))
+    }
+
+    onCloseConfirm() {
+        this.buySellConfirmService.close();
+    }
+
+ }

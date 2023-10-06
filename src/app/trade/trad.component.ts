@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuModel } from '../models/menu.medel';
 import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/api';
 @Component({
@@ -6,7 +6,7 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
   template: `
 
   <app-modal></app-modal>
-  <app-buy-sell-confirm *ngIf="0"></app-buy-sell-confirm>
+  <app-buy-sell-confirm></app-buy-sell-confirm>
 
     <!--  -->
     <div class="container rounded-bottom-4">
@@ -80,7 +80,7 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
         <div class="row h-100">
           <div class="col-md-6 col-xl-4 py-0">
             <div class="border-0 card h-100 px-5 rounded-0 tab-l">
-              <div class="row">
+              <div class="row pt-1">
                 <div class="align-items-start col-6 d-flex ps-0 py-1">
                   <img src="assets/images/flag.svg" style="max-width: 35px;" alt="">
                   <div class="">
@@ -98,7 +98,7 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
 
           <div class="col-md-6 col-xl-4 py-0">
             <div class="border-0 card h-100 px-5 rounded-0 tab-l">
-              <div class="row">
+              <div class="row pt-1">
                 <div class="align-items-start col-6 d-flex ps-0 py-1">
                   <img src="assets/images/gold.svg" style="max-width: 35px;" alt="">
                   <div class="">
@@ -118,7 +118,7 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
             <div class="card border-0 h-100 rounded-0 px-5" style="background: transparent;">
               <div class="row h-100">
                 <div class="col-xl-9 offset-0 offset-xl-3 h-100 align-items-center d-flex justify-content-center  justify-content-xl-end pe-0">
-                  <p class="mb-0 text-center text-xl-end text-white">{{nowDate|date:'dd/MM/yyyy hh:mm:ss':'UTC+7' }} (UTC+7)</p>
+                  <p class="mb-0 text-center text-xl-end text-white">{{date|date:'dd/MM/yyyy hh:mm:ss':'UTC+7' }} (UTC+7)</p>
                 </div>
               </div>
             </div>
@@ -217,12 +217,19 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
   providers: [ConfirmationService, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TradComponent {
+export class TradComponent implements OnInit, OnDestroy {
+
+  date = new Date();
+  private intervalId: any;
 
   constructor(
                 private ref: ChangeDetectorRef,
                 private confirmationService: ConfirmationService, 
                 private messageService: MessageService) {}
+
+  ngOnInit(): void {
+    this.nowDate()
+  }
 
 
   menus: MenuModel[] = [
@@ -233,8 +240,11 @@ export class TradComponent {
     { id: '105', label: 'ตั้งค่าบัญชี', icon: 'assets/images/icons-menu/setting.svg', link: '/setting' },
   ]
 
-  get nowDate() {
-    return new Date();
+  private nowDate() {
+    this.intervalId = setInterval(() => {
+      this.date = new Date();
+      this.ref.markForCheck();
+    }, 1000);
   }
 
 
@@ -259,6 +269,8 @@ export class TradComponent {
     console.log('ok')
   }
 
-  
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
+  }  
 
 }

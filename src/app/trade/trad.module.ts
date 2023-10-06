@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CommonModule } from '@angular/common';
+import { BuySellConfirmService } from '../services/buy-sell-confirm.service';
 
 
 
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
     TradRoutingModule,
     ConfirmDialogModule
 
-  ]
+  ],
+  providers: [BuySellConfirmService]
 })
 export class TradModule { }

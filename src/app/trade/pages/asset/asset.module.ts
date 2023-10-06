@@ -5,7 +5,6 @@ import { AssetRoutingModule } from './asset-routing.module';
 import { AssetComponent } from './asset.component';
 import { SharedModule } from '../../../shared/shared.module';
 
-
 @NgModule({
   declarations: [
     AssetComponent
@@ -14,6 +13,7 @@ import { SharedModule } from '../../../shared/shared.module';
     CommonModule,
     SharedModule,
     AssetRoutingModule,
+    
   ]
 })
 export class AssetModule { }

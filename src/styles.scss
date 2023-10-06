@@ -60,6 +60,8 @@ $yellow-indian       : #E4A756;
 
 $million-grey       : #999999;
 
+$brushed-metal    : #C8C8C8;
+
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
@@ -94,6 +96,7 @@ $custom-theme: (
   "red-hot-mama"    : $red-hot-mama, 
   "yellow-indian"    : $yellow-indian,
   "million-grey"    : $million-grey,
+  "brushed-metal"    : $brushed-metal,
 
 );
 

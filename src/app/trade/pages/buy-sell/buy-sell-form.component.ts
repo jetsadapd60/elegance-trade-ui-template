@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BuySellConfirmService } from 'src/app/services/buy-sell-confirm.service';
 
 // interface City {
 //   name: string;
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
 // }
 
 @Component({
-  selector: 'buy-sell-form',
+  selector: 'app-buy-sell-form',
   template: `
           <div class="card border-0 rounded-0 rounded-bottom-4" style="height: 616px;">
           <div class="card-body py-0">
@@ -78,10 +79,10 @@ import { Component } from '@angular/core';
                   <div class="form-group mt-4">
                     <div class="row">
                       <div class="col-6">
-                        <button class="btn btn-danger py-0 w-100 text-white btn-lg ff-mm fz-24" style="max-height: 40px;">SELL</button>
+                        <button (click)="onClickSell($event)" class="btn btn-danger py-0 w-100 text-white btn-lg ff-mm fz-24" style="max-height: 40px;">SELL</button>
                       </div>
                       <div class="col-6">
-                        <button class="btn btn-primary py-0 w-100 text-white btn-lg ff-mm fz-24" style="max-height: 40px;">BUY</button>
+                        <button  class="btn btn-primary py-0 w-100 text-white btn-lg ff-mm fz-24" style="max-height: 40px;">BUY</button>
                       </div>
                     </div>
                   </div>
@@ -94,7 +95,7 @@ import { Component } from '@angular/core';
               <div class="col-4 col-xl-6 offset-3 overflow-hidden d-flex align-items-end gap-1">
                 <label for="pin" class="text-mist">PIN: </label>
                 <input type="password" name="" style="-webkit-text-security: circle;" class="w-100 text-mist border-0 border-bottom p-1 text-center" id="pin">
-                <i class="pi {{isLogPassword?'pi-lock':'pi-lock-open'}}" type="button" (click)="isLogPassword=!isLogPassword" style="font-size: 1.2rem"></i>
+                <i role="presentation" class="pi {{isLogPassword?'pi-lock':'pi-lock-open'}}" type="button" (click)="isLogPassword=!isLogPassword" style="font-size: 1.2rem"></i>
               </div>
             </div>
           </div>
@@ -236,8 +237,22 @@ export class BuySellFormComponent {
     height: 12,
     radius: 100,
   };
+
+  constructor(public buySellConfirmService: BuySellConfirmService) {}
   
   onLockPassword() {
+    // TODO
+  }
 
+  onClickSell(event: MouseEvent) {
+    console.log('mouse event ---<>', event);
+    this.buySellConfirmService.open({
+      modalType: {
+        complete: 'Buy'
+      },
+      detail: 'test',
+      accep: () => console.log('accep'),
+      cancel: () => console.log('cancel'),
+    });
   }
 }

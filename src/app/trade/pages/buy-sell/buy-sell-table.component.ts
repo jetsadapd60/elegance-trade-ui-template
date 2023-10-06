@@ -16,7 +16,7 @@ export interface Product {
 }
 
 @Component({
-  selector: 'buy-sell-table',
+  selector: 'app-buy-sell-table',
   template: `
 
         <div class="row mt-3">
@@ -124,7 +124,9 @@ export interface Product {
                     </td>
                     <td class="py-3 px-{{!isLageView?'1':'3'}}">
                       <div class="row p-0 align-items-start">
-                        <div class="col-3 py-1" [ngClass]="{'px-0': !isLageView}"><img src="assets/images/lhc-gold-tab-active.svg" class="w-100"></div>
+                        <div class="col-3 py-1" [ngClass]="{'px-0': !isLageView}">
+                          <img src="assets/images/lhc-gold-tab-active.svg" class="w-100" alt="" />
+                        </div>
                         <div class="col-9 p-0">
                           <div class="py-1 fz-{{!isLageView?'16':'16'}} ff-km">ทองคำแท่ง96.50%</div>
                           <div class="py-1 fz-{{!isLageView?'14':'16'}} ff-kt">B###23000006</div>
@@ -139,7 +141,9 @@ export interface Product {
                     </td>
                     <td class="px-0 py-0">
                       <div class="row py-0 text-center">
-                        <div class="col-12 py-1 fz-{{!isLageView?'16':'16'}}"><span class="btn btn-primary rounded-pill ff-mr py-0 text-white py-0 fz-{{!isLageView?'16':'16'}}">Buy</span></div>
+                        <div class="col-12 py-1 fz-{{!isLageView?'16':'16'}}">
+                          <span class="btn btn-primary rounded-pill ff-mr py-0 text-white py-0 fz-{{!isLageView?'16':'16'}}">Buy</span>
+                        </div>
                         <div class="col-12 py-1 ff-mr fz-{{!isLageView?'14':'14'}}">OCO</div>
                       </div>
                     </td>
@@ -163,7 +167,7 @@ export interface Product {
                     </td>
                     <td class="ps-0 py-0 ">
                         <div class="row text-end text-xxl-{{!isLageView?'end':'center'}}">
-                          <div class="col-12 ps-0 py-0 mb-1 ff-mr fz-{{!isLageView?'16':'16'}} color-{{product.status}}" >{{product.status}}</div>
+                          <div class="col-12 ps-0 py-0 mb-1 ff-kr fz-{{!isLageView?'16':'16'}} color-{{product.status}}" >{{product.status|tranOrderState}}</div>
                           <div *ngIf="isLageView" class="col-12 py-1 ff-mr text-white fz-{{!isLageView?'16':'16'}}">e</div>
                           <div class="col-12 ps-0 ff-kt text-white d-flex gap-3 justify-content-end" *ngIf="!isLageView">
                             <div class="py-0 offset-3 text-end"><i class="bi bi-trash fz-{{!isLageView?'16':'22'}}" style="color: #708090"></i></div>
@@ -464,7 +468,6 @@ export class BuySellTableComponent implements OnChanges {
   
   @Input('showTradeView')
   set view(e: boolean) {
-    console.log(e)
     this.isLageView = e;
   }
   

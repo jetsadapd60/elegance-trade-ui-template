@@ -33,7 +33,7 @@ import { RouterService } from '../services/router.service';
           </div>
         </div>
     </div>
-    </div>
+    </div> 
 
     <div class="container">
       <app-footer></app-footer>
@@ -99,7 +99,8 @@ import { RouterService } from '../services/router.service';
       }
 
       &__right {
-        padding: 70px 40px;
+        padding: 20px 40px;
+        height: 100%;
       }
 
       .call-center-text {
