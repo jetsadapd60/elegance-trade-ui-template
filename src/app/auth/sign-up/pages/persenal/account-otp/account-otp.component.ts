@@ -1,9 +1,18 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from 'src/app/base-class/base.component';
+import { UserStorage } from 'src/app/models/enum';
+import { OtpRespons } from 'src/app/models/otp.model';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { OtpService } from 'src/app/services/otp.service';
+import { PopupService } from 'src/app/services/popup.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 
 @Component({
@@ -27,12 +36,13 @@ import { BaseComponent } from 'src/app/base-class/base.component';
     </div>
 
     <div class="text-detail-wrap">
-      <span *ngIf="isOtpMobile" class="fz-16 text-mauve ff-kl">กรุณากรอกรหัส OTP 6 หลัก ที่ส่งไปยังหมายเลขโทรศัพท์ของท่าน 012***6789 รหัสนี้มีอายุการใช้งาน 5 นาที</span>
-      <span *ngIf="!isOtpMobile" class="fz-16 text-mauve ff-kl">กรุณากรอกรหัส OTP 6 หลัก ที่ส่งไปยังอีเมลของท่าน LHCdemo@gmail.com รหัสนี้มีอายุการใช้งาน 5 นาท</span>
+      <span *ngIf="isOtpMobile" class="fz-16 text-mauve ff-kl">กรุณากรอกรหัส OTP 6 หลัก ที่ส่งไปยังหมายเลขโทรศัพท์ของท่าน {{mobilePhone}} รหัสนี้มีอายุการใช้งาน 5 นาที</span>
+      <span *ngIf="!isOtpMobile" class="fz-16 text-mauve ff-kl">กรุณากรอกรหัส OTP 6 หลัก ที่ส่งไปยังอีเมลของท่าน {{email}} รหัสนี้มีอายุการใช้งาน 5 นาท</span>
     </div>
 
     <div class="try-agin">
-      <span class="text-decoration-underline text-lake">ไม่ได้รับรหัส ?</span>
+      <span class="text-decoration-underline pr-2" type="button" [ngClass]="tryAgianOtpBtnStyle" (click)="tryAgianOtp()">ไม่ได้รับรหัส ?</span>
+      <span class="text-mauve">({{timer}})</span>
     </div>
   `,
   styles: [
@@ -109,41 +119,190 @@ import { BaseComponent } from 'src/app/base-class/base.component';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [OtpService]
 })
-export class AccountMobileOtpComponent extends BaseComponent {
+export class AccountMobileOtpComponent extends BaseComponent implements OnInit {
 
-  valueVeriry = '123456';
+  private accID: string | undefined;
+
+  mobilePhone: string = '012***6789';
+  email: string = 'LHCdemo@gmail.com';
 
   isInvalid!: boolean;
 
+  enableTryAgianOtpBtn: boolean = true;
+  timer: number = 60;
 
-  constructor(override router: Router, override atr: ActivatedRoute) {
+  get tryAgianOtpBtnStyle() {
+    return {
+      'text-lake': this.enableTryAgianOtpBtn,
+      'text-mauve': !this.enableTryAgianOtpBtn,
+    }
+  }
+
+
+  constructor(
+      override router         : Router, 
+      override atr            : ActivatedRoute, 
+      private otpService      : OtpService, 
+      private popupService    : PopupService,
+      private spinnserService : SpinnerService,
+      private ref             : ChangeDetectorRef,
+      private storageService  : LocalStorageService, 
+      ) {
     super(router, atr);
+
+    this.accID = this.storageService.getItem(UserStorage.USER_ACC_ID);
+
+  }
+
+  ngOnInit(): void {
+    let phone = this.storageService.getItem(UserStorage.USER_PHONE_NUMBER);
+    let email = this.storageService.getItem(UserStorage.USER_EMAIL);
+
+    if(phone && typeof phone === 'string') this.mobilePhone = phone;
+    if(email && typeof email === 'string') this.email = email;
   }
 
   compairOtp(otpValue: string) {
     if(!otpValue) return;
 
-    otpValue === this.valueVeriry ? this.isInvalid = false: this.isInvalid=true;
-  
-    // if isValid value is false
-    if(this.isInvalid) {
-      // TODO 
-      // show error dialog;
-      return;
+    this.spinnserService.open();
+
+    const next = (res: OtpRespons) => {
+
+      console.log('otp ----<>', res);
+
+      if(res && res.status) {
+
+        this.popupService.open({
+          type: 'complete',
+          icon: 'complete',
+          textHead: 'สำเร็จ',
+          disc: res.message,
+          btnLabel: 'ดำเนินการต่อ',
+          confirm: () => {
+            if (this.isPersonal) {
+              this.isOtpMobile
+                  ? this.navigation('email-otp', this.page)
+                  : this.navigation('setup-pin', this.page);
+                } else {
+                  this.isOtpMobile 
+                      ? this.navigation('email-otp', this.page)
+                      : this.navigation('setup-pin', this.page);
+                }
+              },
+            })
+
+      }
+
+      if(res && !res.status) {
+
+        if(res.message === "บัญชีของคุณดำเนินการเรียบร้อยแล้ว") {
+          this.popupService.open({
+            type: 'error',
+            icon: 'error',
+            textHead: 'ไม่สำเร็จ',
+            disc: res.message,
+            btnLabel: 'ดำเนินการต่อ',
+            confirm: () => {
+              // this.navigation('');
+              this.router.navigateByUrl('/auth/sign-in');
+            },
+          })
+        } else {
+
+          this.popupService.open({
+            type: 'error',
+            icon: 'error',
+            textHead: 'ไม่สำเร็จ',
+            disc: res.message,
+            btnLabel: 'ดำเนินการต่อ',
+            confirm: () => {},
+          })
+        }
+      }
+
     }
 
-    // if isValid value is true
-    // change page
+    const error = (err: HttpErrorResponse) => {}
+    const complete = () => this.spinnserService.close();
 
-    if (this.isPersonal) {
-      this.isOtpMobile
-        ? this.navigation('email-otp', this.page)
-        : this.navigation('setup-pin', this.page);
-    } else {
-      this.isOtpMobile
-        ? this.navigation('email-otp', this.page)
-        : this.navigation('setup-pin', this.page);
+    // verify otp by Sms
+    if(this.isOtpMobile) {
+      const dataOtp = { accId: this.accID, otpSms: otpValue };
+      this.otpService.verifyOtpSms(dataOtp).subscribe({ next, error, complete });
+    }
+    
+
+    // verify otp by email
+    if(!this.isOtpMobile) {
+      const dataOtp = { accId: this.accID, otpEmail: otpValue };
+      this.otpService.verifyOtpEmail(dataOtp).subscribe({ next, error, complete })
+    }
+
+  }
+
+  countDown() {
+    let timeout: any;
+    timeout = setInterval(() => {
+      this.timer -= 1;
+      if(this.timer <= 1) {
+        clearInterval(timeout);
+        this.timer = 60;
+        this.enableTryAgianOtpBtn = true;
+      }
+      this.ref.markForCheck();
+    }, 1000);   
+  }
+  
+  tryAgianOtp() {
+    if(!this.accID || !this.enableTryAgianOtpBtn) return;
+
+    this.spinnserService.open();
+    
+    
+    const next = (res: OtpRespons) => {
+      console.log('try again sms ----<>', res);
+      if(res && res.status) {
+        this.enableTryAgianOtpBtn = false;
+        this.countDown();
+        this.popupService.open({
+          type    : 'complete',
+          icon    : 'complete',
+          textHead: 'สำเร็จ',
+          disc    : res.message,
+          btnLabel: 'ดำเนินการต่อ',
+          confirm : () => {},
+        })
+      }
+
+      if(res && !res.status) {
+        this.popupService.open({
+          type    : 'error',
+          icon    : 'error',
+          textHead: 'ไม่สำเร็จ',
+          disc    : res.message,
+          btnLabel: 'ดำเนินการต่อ',
+          confirm : () => {
+            this.enableTryAgianOtpBtn = true;
+          },
+        })
+      }
+    }
+
+    const error = (err: any) => {}
+    const complete = () => this.spinnserService.close();
+    
+
+    // ขอ otp ของ sms อีกครั้ง
+    if(this.isOtpMobile) {
+      this.otpService.tryAgainOtpSms(this.accID).subscribe({ next, error, complete });
+    }
+    
+    // ขอ otp ของ email อีกครั้ง
+    if(!this.isOtpMobile) {
+      this.otpService.tryAgainOtpEmail(this.accID).subscribe({ next, error, complete })
     }
   }
 }

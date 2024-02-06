@@ -49,7 +49,7 @@ import { RouterService } from "src/app/services/router.service";
 
                 <div class="group-btn d-flex justify-content-center gap-4">
                     <button (click)="router.navigation('/')" class="btn ff-kl border rounded text-apple border-apple">ปฏิเสธ</button>
-                    <button (click)="router.navigation('/e-kyc/3')" class="btn ff-kl btn-apple rounded">ยินยอม</button>
+                    <button (click)="router.navigation('/e-kyc/KycPage3')" class="btn ff-kl btn-apple rounded">ยินยอม</button>
                 </div>
             </div>
         </div>
@@ -89,9 +89,9 @@ import { RouterService } from "src/app/services/router.service";
 
         .wrap {
             &-outer {
-                height: 45%;
+                height: 58%;
                 overflow: hidden;
-                padding: 0px 20px 20px;
+                padding: 0px 20px 30px;
             }
             &-inner {
                 height: 100%;
@@ -122,7 +122,7 @@ import { RouterService } from "src/app/services/router.service";
         
         .wrap {
             &-outer {
-                height: 75%;
+                height: 48%;
                 padding: 0px 30px 30px;
             }
             &-inner {
@@ -144,6 +144,15 @@ import { RouterService } from "src/app/services/router.service";
             & .btn {
                 width: 150px !important;
                 height: 40px;
+            }
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .wrap {
+            &-outer {
+                height: 60%;
+                /* padding: 0px 30px 30px; */
             }
         }
     }

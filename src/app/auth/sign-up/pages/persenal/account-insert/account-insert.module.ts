@@ -4,17 +4,20 @@ import { CommonModule } from '@angular/common';
 import { AccountInsertRoutingModule } from './account-insert-routing.module';
 import { AccountInsertComponent } from './account-insert.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PhoneFormatPipe } from 'src/app/shared/pipes/phone-format.pipe';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    AccountInsertComponent
+    AccountInsertComponent,
+    PhoneFormatPipe
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     AccountInsertRoutingModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
 })
 export class AccountInsertModule { }

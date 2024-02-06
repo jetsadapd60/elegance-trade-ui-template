@@ -23,7 +23,6 @@ export class ModalService {
    * @returns The `get modal$()` method is returning an `Observable` of type `Modal | undefined`.
    */
   get modal$(): Observable<Modal | undefined> {
-    console.log('test')
     return this.modalData.asObservable();
   }
 

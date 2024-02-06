@@ -15,12 +15,7 @@ declare const TradingView: any;
     <div class="tradingview-widget-container">
       <div id="tradingview_bac65"></div>
       <div class="tradingview-widget-copyright">
-        <a
-          href="https://th.tradingview.com/symbols/XAUTHB/?exchange=Ausiris"
-          rel="noopener"
-          target="_blank">
-          <!-- <span class="blue-text">AAPL Chart</span> -->
-        </a>
+        <a href="https://th.tradingview.com/symbols/XAUTHB/?exchange=Ausiris" rel="noopener" target="_blank"></a>
         <!-- by TradingView -->
       </div>
     </div>

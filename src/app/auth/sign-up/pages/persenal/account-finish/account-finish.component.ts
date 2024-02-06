@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from 'src/app/base-class/base.component';
-import { CustomerStorageType } from 'src/app/models/enum';
-import { storage } from 'src/app/utils/local-storage';
+import { CustomerStorageType, UserStorage } from 'src/app/models/enum';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-account-finish',
@@ -10,13 +11,14 @@ import { storage } from 'src/app/utils/local-storage';
     <div class="finish">
 
         <div>
-            <img src="assets/images/complete-sign-up-icon.svg" alt="">
-            <h3>การสร้างบัญชีขั้นต้นสำเร็จ</h3>
+            <img src="assets/images/complete-sign-up-icon.svg" alt="" class="pr-3">
+            <!-- <h3>การสร้างบัญชีขั้นต้นสำเร็จ</h3> -->
+            <img src="assets/images/text-finish-page-icon.png" alt="">
         </div>
 
-        <div>
-          <p class="text-warning ff-kr">เพื่อให้การเปิดบัญชี ซื้อ-ขาย เสร็จสมบูรณ์กรุณาล็อกอินเข้าสู่ระบบ เพื่อดำเนินการ</p>
-          <p class="text-warning ff-kr">เพื่อให้การเปิดบัญชี ซื้อ-ขาย เสร็จสมบูรณ์กรุณาเตรียมเอกสารสำหรับการเปิดบัญชีประเภทนิติบุคคล</p>
+        <div class="pt-3">
+          <p class="text-warning m-0 ff-kr" *ngIf="isPersonal">เพื่อให้การเปิดบัญชี ซื้อ-ขาย เสร็จสมบูรณ์กรุณาล็อกอินเข้าสู่ระบบ เพื่อดำเนินการ</p>
+          <p class="text-warning m-0 ff-kr" *ngIf="!isPersonal">เพื่อให้การเปิดบัญชี ซื้อ-ขาย เสร็จสมบูรณ์กรุณาเตรียมเอกสารสำหรับการเปิดบัญชีประเภทนิติบุคคล</p>
         </div>
 
         <div>
@@ -38,18 +40,43 @@ import { storage } from 'src/app/utils/local-storage';
           <h3>ทางบริษัทจะติดต่อท่านภายใน 2 วันทำการเพื่อดำเนินการเปิดบัญชีให้เสร็จสมบูรณ์</h3>
         </div>
 
-        <div>
+        <div class="btn-blcok text-center">
           <div class="btn btn-apple w-50" (click)="navigateToHome()">ไปหน้าล็อกอิน</div>
         </div>
 
     </div>
     
   `,
-  styles: [],
+  styles: [`
+  
+    .finish {
+      padding: 163px  50px 0px 90px;
+    }
+  
+    .btn-blcok {
+      padding-top: 126px;
+    }
+
+    @media (min-width: 1200px) {
+
+      .finish {
+        padding: 163px  50px 0px 90px;
+      }
+      
+      .btn-blcok {
+        padding-top: 126px;
+      }
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountFinishComponent extends BaseComponent implements OnDestroy {
+
+  constructor(router: Router, atr: ActivatedRoute ,private storeService: LocalStorageService) {
+    super(router, atr);
+  }
+
   ngOnDestroy(): void {
-    storage.remove(CustomerStorageType.PINSETUP);
+    this.storeService.clear();
   }
 }

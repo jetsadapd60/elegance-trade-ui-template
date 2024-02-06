@@ -20,19 +20,19 @@ import { RouterService } from '../services/router.service';
 
 
     <div class="container content">
-    <div class="wrap px-5 pt-3 pt-xl-5 h-100">
-        <div class="layout rounded-4 bg-white overflow-hidden d-flex">
-          <div class="layout__left position-relative">
-            <div class="wrap-hero h-100 rounded-4 d-flex flex-column justify-content-center align-items-center">
-              <img src="assets/images/bank-account-icon-hero.svg" class="hero-image w-50" alt="">
+      <div class="h-100 overflow-hidden px-5 py-3 wrap">
+          <div class="bg-white d-flex h-100 layout overflow-hidden rounded-4">
+            <div class="layout__left position-relative">
+              <div class="wrap-hero h-100 rounded-4 d-flex flex-column justify-content-center align-items-center">
+                <img src="assets/images/bank-account-icon-hero.svg" class="hero-image w-50" alt="">
+              </div>
+              <span class="call-center-text text-dull">Langhong Contact Center  : 02-1234567</span>
             </div>
-            <span class="call-center-text text-dull">Langhong Contact Center  : 02-1234567</span>
+            <div class="layout__right h-100">
+              <router-outlet></router-outlet>
+            </div>
           </div>
-          <div class="layout__right h-100">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
-    </div>
+      </div>
     </div> 
 
     <div class="container">

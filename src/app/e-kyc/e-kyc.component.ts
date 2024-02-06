@@ -3,9 +3,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'app-e-kyc',
   template: `
-
     <div class="container rounded-bottom-4">
-      <div class="card top-bar bg-milk rounded-0 rounded-bottom-4 py-0">
+      <div class="card top-bar border-0 bg-milk rounded-0 rounded-bottom-4 py-0">
         <div class="card-body py-0 " style="height: 88px;">
           <div class="row py-2 pb-1">
             <div class="col-6 text-center text-xl-start ">

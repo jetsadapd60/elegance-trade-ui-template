@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'sign-up',
@@ -116,7 +117,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 
   `],
-  providers: [],
+  providers: [AuthService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent {}

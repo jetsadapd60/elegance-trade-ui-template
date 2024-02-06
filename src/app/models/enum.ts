@@ -24,7 +24,19 @@ export enum TradeTyp {
 
 export enum ConditionTread {}
 
-export enum TokenEnum {
-    ACCESS_TOKEN = "access_token",
-    REFRESH_TOKEN = "refresh_token",
+export enum UserStorage {
+    "USER_ACCESS_TOKEN" = 'u_a_t',
+    "USER_REFRESH_TOKEN" = 'u_r_t',
+    "USER_IS_LOGGED_IN" = 'u_lg_i',
+    "USER_ACC_ID" = 'u_acc_id',
+    "USER_CLIENT_ID" = 'u_c_id',
+    "USER_PHONE_NUMBER" = 'u_p_n',
+    "USER_EMAIL" = 'u_e_m',
+}
+
+export enum MarketingStorage {
+    "MARKETING_ACCESS_TOKEN" = 'm_a_t',
+    "MARKETING_REFRESH_TOKEN" = 'm_r_t',
+    "MARKETING_DATA_SIGGED_IN" = 'm_d_s_i',
+    "MARKETING_IS_LOGGED_IN" = 'm_lg_i',
 }

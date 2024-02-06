@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `<router-outlet></router-outlet>`,
+  template: `
+  <app-popup></app-popup>
+  <app-spinner></app-spinner>
+  <router-outlet></router-outlet>
+  `,
   styles: [
     `
       :host {
@@ -17,6 +21,4 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class AppComponent {
-  title = 'elegance-template-trade-ui';
-}
+export class AppComponent {}

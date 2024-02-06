@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseComponent } from 'src/app/base-class/base.component';
-import { CustomerStorageType } from 'src/app/models/enum';
-import { storage } from 'src/app/utils/local-storage';
+import { CustomerStorageType, UserStorage } from 'src/app/models/enum';
+import { CreatePin, PinResponse } from 'src/app/models/pin.model';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { PinService } from 'src/app/services/pin.service';
+import { PopupService } from 'src/app/services/popup.service';
 
 @Component({
   selector: 'app-account-setup-pin',
@@ -20,13 +23,13 @@ import { storage } from 'src/app/utils/local-storage';
 
 
         <div class="otp-wrap d-flex justify-content-center">
-          <app-otp-pin (onSubmit)="compair($event)" [isError]="isInvalid"></app-otp-pin>
+          <app-otp-pin (onSubmit)="createPin($event)" [isError]="isPinInvalid"></app-otp-pin>
         </div>
 
         <div class="bordre text-center error-text d-flex align-items-center justify-content-center">
           <p class="mb-0 text- ff-kl" *ngIf="isSetupPin">กรุณาตั้งรหัส PIN 6 หลัก เพื่อความปลอดภัยในการใช้งาน</p>
-          <p class="mb-0 text- ff-kl" *ngIf="!isSetupPin && !isInvalid">กรุณายืนยันรหัส PIN 6 หลัก </p>
-          <p class="mb-0 text-red-hot-mama ff-kl" *ngIf="isInvalid">รหัส PIN ไม่ตรงกัน กรุณากรอกอีกครั้ง</p>
+          <p class="mb-0 text- ff-kl" *ngIf="!isSetupPin && !isPinInvalid">กรุณายืนยันรหัส PIN 6 หลัก </p>
+          <p class="mb-0 text-red-hot-mama ff-kl" *ngIf="isPinInvalid">รหัส PIN ไม่ตรงกัน กรุณากรอกอีกครั้ง</p>
         </div>
     
 
@@ -114,16 +117,23 @@ import { storage } from 'src/app/utils/local-storage';
     
     `
   ],
+  providers: [PinService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountSetupPinComponent extends BaseComponent implements OnInit {
 
-  protected isSetupPin:boolean;
+  protected isSetupPin: boolean;
 
-  protected isInvalid!:boolean;
-  
+  protected isPinInvalid!: boolean;
 
-  constructor(override router: Router, override atr: ActivatedRoute, private ref: ChangeDetectorRef) {
+
+  constructor(
+    override router: Router,
+    override atr: ActivatedRoute,
+    private pinService: PinService,
+    private popupService: PopupService,
+    private ref: ChangeDetectorRef,
+    private storage: LocalStorageService) {
     super(router, atr);
     this.isSetupPin = this.url.includes('setup-pin');
     console.log(this.page)
@@ -134,33 +144,79 @@ export class AccountSetupPinComponent extends BaseComponent implements OnInit {
   }
 
 
-  compair(value: string) {
-    if(!value) return;
-    
-    if(this.isSetupPin) {
-      storage.set(CustomerStorageType.PINSETUP, value);
+  /**
+   * สำหรับเปรียบเทียบพิน
+   * @param firstPin รหัสพินรอบแรก
+   * @param lastPin รหัสพินรอบล่าสุด
+   * @returns 
+   */
+  compare(firstPin: string, lastPin: string): boolean {
+    if (firstPin === lastPin) return true;
+    return false;
+  }
+
+
+  createPin(pinNumber: string) {
+    if (!pinNumber) return;
+
+    if (this.isSetupPin) {
+      localStorage.setItem(CustomerStorageType.PINSETUP, pinNumber);
       this.navigation('confirm-pin', this.page);
-      
+
     } else {
 
-      const pinSetup = storage.get(CustomerStorageType.PINSETUP);
-      const isValidPin = !!pinSetup;
-      if(isValidPin) {
-        
-        value === pinSetup ? this.isInvalid = false:this.isInvalid = true;
+      const firstPin = localStorage.getItem(CustomerStorageType.PINSETUP);
+      const lastPin = pinNumber;
+      if (firstPin && lastPin) {
+        this.isPinInvalid = this.compare(firstPin, lastPin);
+
 
         // not same pin value 
-        if(this.isInvalid) {
-          // TODO
+        if (this.isPinInvalid) {
+          // TODO ต้องทำอย่างไรเมื่อกรอก pin หลายรอบแต่ไม่ถูก
           // show error dialog
-          this.navigation('setup-pin', this.page);
+
+          // this.navigation('setup-pin', this.page);
           return;
         }
 
-        
+
+
         // same pin value
-        this.navigation('finish', this.page);
-        console.log('ok`')
+
+        let accId = this.storage.getItem(UserStorage.USER_ACC_ID) as string;
+
+        if (!accId) {
+
+        }
+
+        const createPin: CreatePin = {
+          accId,
+          pinNumber: lastPin,
+        }
+        const next = (res: PinResponse) => {
+          console.log(res)
+          // สำเร็จ
+          if (res && res.status) {
+            this.popupService.open({
+              type: 'complete',
+              icon: 'complete',
+              textHead: 'สำเร็จ',
+              disc: 'การตั้งค่า PIN ของท่านสำเร็จ',
+              btnLabel: 'ดำเนินการต่อ',
+              confirm: () => {
+                this.navigation('finish', this.page);
+              },
+            })
+          }
+
+          // ไม่สำเร็จ
+          if (res && !res.status) {
+
+          }
+        }
+        this.pinService.createPin(createPin).subscribe({ next });
+
 
       }
 
@@ -169,7 +225,7 @@ export class AccountSetupPinComponent extends BaseComponent implements OnInit {
 
   }
 
-  
-  
+
+
 
 }

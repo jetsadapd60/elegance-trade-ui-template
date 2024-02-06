@@ -27,7 +27,7 @@ import { RouterService } from "src/app/services/router.service";
                     </ul>
                     <div class="group-btn d-flex justify-content-center gap-4">
                     <button (click)="router.navigation('/setting')" class="btn ff-kl border rounded text-apple border-apple">ออก</button>
-                    <button (click)="router.navigation('/e-kyc/2')" class="btn ff-kl btn-apple rounded">ดำเนินการ</button>
+                    <button (click)="router.navigation('/e-kyc/KycPage2')" class="btn ff-kl btn-apple rounded">ดำเนินการ</button>
                 </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@ import { RouterService } from "src/app/services/router.service";
         
         .list-text {
             font-size: 16px;
-            padding-bottom: 80px;
+            padding-bottom: 20px;
         }
 
         .group-btn {

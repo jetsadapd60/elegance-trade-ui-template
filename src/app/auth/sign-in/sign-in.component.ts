@@ -1,8 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ActivatedRouteModel } from "src/app/base-class/activated-route";
+import { UserStorage } from "src/app/models/enum";
+import { SignInMarketingResponse } from "src/app/models/sign-in-marketing-respones.model";
+import { SignInRequired } from "src/app/models/sign-in-requred.model";
+import { DataSignInUser, SignInUserResponse } from "src/app/models/sign-in-user-respones.model";
+import { AuthService } from "src/app/services/auth.service";
+import { LocalStorageService } from "src/app/services/local-storage.service";
+import { OtpService } from "src/app/services/otp.service";
+import { PopupService } from "src/app/services/popup.service";
+import { SpinnerService } from "src/app/services/spinner.service";
+import { TokenMarketingService } from "src/app/services/token-marketing.service";
+import { TokenUserService } from "src/app/services/token-user.service";
 
 @Component({
     selector: 'app-sign-in',
@@ -21,17 +32,17 @@ import { ActivatedRouteModel } from "src/app/base-class/activated-route";
                                     <img src="assets/images/lhc-logo.svg" alt="">
                                 </div>
                                 <!-- UserName -->
-                                <div>
+                                <!-- <div>
                                     <div class="form-group text-start mt-3 pt-lg-4" *ngIf="isSignInByMarketing">
-                                        <label for="" class="mb-2 text-mauve ff-kl fz-16">ชื่อผู้ใช้งาน</label>
                                         <input formControlName="username" type="text" class="form-control h-54" placeholder="Example@lhc.com">
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Email -->
                                 <div>
-                                    <div class="form-group text-start mt-3 pt-lg-4" *ngIf="!isSignInByMarketing">
-                                        <label for="" class="mb-2 ff-kl text-mauve fz-16">อีเมล </label>
-                                        <input formControlName="email" type="email" class="form-control h-54" placeholder="Example@lhc.com">
+                                    <div class="form-group text-start mt-3 pt-lg-4" >
+                                        <label for="" class="mb-2 text-mauve ff-kl fz-16" *ngIf="isSignInByMarketing">ชื่อผู้ใช้งาน</label>
+                                        <label for="" class="mb-2 ff-kl text-mauve fz-16" *ngIf="!isSignInByMarketing">อีเมล </label>
+                                        <input formControlName="username" autoFocusInput type="email" class="form-control h-54" placeholder="Example@lhc.com">
                                     </div>
                                     <div class="text-start fz-12 text-danger pt-1" *ngIf="emailErrorMessage.length > 0">
                                         <p class="m-0" *ngFor="let message of emailErrorMessage">{{message}}</p>
@@ -52,7 +63,9 @@ import { ActivatedRouteModel } from "src/app/base-class/activated-route";
                                     <button [disabled]="formSignIn.invalid" class="btn btn-apple d-flex align-items-center justify-content-center w-100 btn-lg forget-text">เข้าสู่ระบบ</button>
                                 </div>
                                 <div class="text-center mt-5">
-                                    <a href="" class="text-apple forget-text">สมัครสมาชิก</a>
+                                    <div >
+                                        <span routerLink="/auth/sign-up/account" type="button" class="text-apple forget-text text-decoration-underline">สมัครสมาชิก</span>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -65,6 +78,7 @@ import { ActivatedRouteModel } from "src/app/base-class/activated-route";
                 </div>
             </div>
             <!-- <img src="assets/images/bubble.svg" alt=""> -->
+            <p class="m-0 text-maud copyright-text text-center">@Copyright Elegance. All Rights Reserved Designed by Elegance team</p>
         </div>
     `,
     styles: [`
@@ -140,6 +154,11 @@ import { ActivatedRouteModel } from "src/app/base-class/activated-route";
             font-size: 16px;
         }
 
+        .copyright-text {
+            font-size: 16px;
+            padding-top: 40px;
+        }
+
         @media (min-width: 1200px)  {
             .container {
                 display: flex;
@@ -162,16 +181,26 @@ import { ActivatedRouteModel } from "src/app/base-class/activated-route";
             button {
                 height: 54px;
             }
+
+            .copyright-text {
+                font-size: 20px;
+                padding-top: 26px;
+            }
         }
 
     `],
+    providers: [AuthService, OtpService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDestroy{
 
     private subscriptions: Subscription[] = [];
 
+    // form group
     formSignIn: FormGroup;
+
+    // รูปแบบอีเมล
+    emailPattern: RegExp = RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
 
 
     /**
@@ -187,7 +216,17 @@ export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDe
      */
     private signInType: "User" | "Marketing";
 
-    constructor(act: ActivatedRoute, private fb: FormBuilder) {
+    constructor(
+        act: ActivatedRoute, 
+        private fb: FormBuilder, 
+        private router: Router,
+        private otpService: OtpService,
+        private popupService: PopupService,
+        private spinnerService: SpinnerService,
+        private tokenUserService: TokenUserService,
+        private tokenMarketingService: TokenMarketingService,
+        private storageService: LocalStorageService,
+        private authService: AuthService) {
         super(act);
 
         
@@ -203,8 +242,101 @@ export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDe
 
     // -------------------------------|| Start Login for USER ||-------------------------------\\
 
+    /**
+     * สำหรับลงทะเบียนโดย user || customer
+     * @returns กรณีที่ฟอร์มมีค่า invalid เป็น true
+     */
     private signInByUser() {
-        console.log('user');
+        if(this.formSignIn.invalid) return;
+
+        // * ดึงข้อมูลจากฟอร์ม
+        const dataSignIn = this.formSignIn.value as SignInRequired;
+
+        // TODO แสดง spinner
+        this.spinnerService.open();
+        
+        // Complete
+        const next = (res: SignInUserResponse) => {
+            console.log('respone sign-in by user ---<>', res);
+
+            // ล็อคอินสำเร็จ
+            if(res && res.status === true) {
+                // TODO ปิด spinner
+
+                // ล้างฟอร์ม
+                //! this.formSignIn.reset();
+                // แยกข้อมูล โดยไม่เอา email และ phoneNumber
+                const { token, refreshToken, clientID, accID } = res.data as DataSignInUser;
+                // เข้ารหัสของข้อมูลที่ได้จากการแยก
+                const hashData = btoa(JSON.stringify(res.data));
+
+                this.storageService.clear();
+
+                // บันทึกข้อมูลที่ถูกเข้ารหัสแล้วใน storage ของ browser
+                // this.storageService.setItem(UserStorage.USER_ACCESS_TOKEN, token);
+                // this.storageService.setItem(UserStorage.USER_REFRESH_TOKEN, refreshToken);
+                this.tokenUserService.setAccessToken(token);
+                this.tokenUserService.setRefreshToken(refreshToken);
+                this.storageService.setItem(UserStorage.USER_ACC_ID, accID);
+                this.storageService.setItem(UserStorage.USER_CLIENT_ID, clientID);
+
+                // นำทางไปที่หน้าหลัก
+                this.router.navigateByUrl('/');
+
+            } else {
+                // ล็อคอินไม่สำเร็จ
+                // TODO ปิด spinner
+                // TODO แสดง popup แจ้งข้อผิดพลาด
+                
+                if(res && !res.status) {
+                    // อีเมล หรือ รหัสผิด
+                    if(!res.data) {
+                        this.popupService.open({
+                            type: 'error',
+                            icon: 'error',
+                            textHead: 'ไม่สำเร็จ',
+                            disc: res.message,
+                            btnLabel: 'ดำเนินการต่อ',
+                            confirm: () => {
+                                
+                            },
+                        })
+                    }
+                    
+                    // otp หมดอยุ
+                    if(res.data) {
+                        this.popupService.open({
+                            type: 'error',
+                            icon: 'error',
+                            textHead: 'ไม่สำเร็จ',
+                            disc: res.message,
+                            btnLabel: 'ดำเนินการต่อ',
+                            confirm: () => {
+                                this.storageService.setItem(UserStorage.USER_ACC_ID, (<DataSignInUser>res.data).accID);
+                                this.tryAgianOtp();
+                            },
+                        })
+                    }
+
+                }
+            }
+        }
+
+        // Error
+        const error = (err: unknown) => {}
+
+        const complete = () => {
+            this.spinnerService.close();
+        }
+        this.authService.signInByUser(dataSignIn).subscribe({ next, error, complete });
+    }
+
+    tryAgianOtp() {
+        const accid: string | undefined = this.storageService.getItem(UserStorage.USER_ACC_ID);
+        console.log('accid ---<>', accid)
+        if(!accid) return;
+        
+        this.otpService.tryAgainOtpSms(accid).subscribe((r) => this.router.navigateByUrl('/auth/sign-up/mobile-otp?page=personal'));
     }
 
      
@@ -266,7 +398,7 @@ export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDe
         }
     }
 
-            /**
+    /**
      * The function sets the value of the showEyeButton property.
      * @param {boolean} value - The value parameter is a boolean value that determines whether the eyebutton should be shown or not.
      * ฟังก์ชั่นกำหนดค่าของคุณสมบัติ showEyeButton
@@ -288,18 +420,21 @@ export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDe
 
     // สำหรับสร้างฟอร์มกรุ๊ป
     private createForm(): FormGroup {
-        if(this.isSignInByMarketing) {
-            return this.fb.group({
-                username: ['', [Validators.required]],
-                password: ['', [Validators.required]],
-            });
-        } else {
-            return this.fb.group({
-                email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
-                password: ['', [Validators.required, Validators.minLength(6)]],
-            });
+        return this.fb.group({
+            username: ['jetsadapd60@gmail.com', [Validators.required]],
+            password: ['Jetsada12!', [Validators.required]],
+            clientID: [''],
+        });
+        // if(this.isSignInByMarketing) {
+            
+        // } else {
+        //     return this.fb.group({
+        //         email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+        //         password: ['', [Validators.required, Validators.minLength(6)]],
+        //         clientID: [''],
+        //     });
 
-        }
+        // }
     }
 
         /**
@@ -319,7 +454,24 @@ export class SignInComponent extends ActivatedRouteModel implements OnInit, OnDe
     // -------------------------------|| Start Login for Marketing ||-------------------------------\\
 
     private signInBuyMarketing() {
-        console.log('marketing', this.formSignIn.value)
+
+        const next = (res: SignInMarketingResponse) => {
+            if(res && res.status) {
+                this.storageService.clear();
+                const { token, refreshToken } = res.data;
+
+                this.storageService.clear();
+
+                this.tokenMarketingService.setAccessToken(token);
+                this.tokenMarketingService.setRefreshToken(refreshToken);
+
+                this.router.navigateByUrl('/');
+
+                console.log(res)
+
+            }
+        }
+        this.authService.signInBuyMarketing(this.formSignIn.value).subscribe({ next });
     }
 
     // -------------------------------|| End Login for Marketing ||-------------------------------\\

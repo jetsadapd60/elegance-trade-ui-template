@@ -26,7 +26,7 @@ import { RouterService } from "src/app/services/router.service";
 
                     <div class="group-btn d-flex justify-content-center gap-4">
                     <button (click)="routerService.navigation('/setting')" class="btn ff-kl border rounded text-apple border-apple">กลับสู่หน้า Profile</button>
-                    <button (click)="routerService.navigation('/')" class="btn ff-kl btn-apple rounded">กลับสู่หน้าหลัก</button>
+                    <button (click)="routerService.navigation('/setting')" class="btn ff-kl btn-apple rounded">กลับสู่หน้าหลัก</button>
                 </div>
                 </div>
             </div>

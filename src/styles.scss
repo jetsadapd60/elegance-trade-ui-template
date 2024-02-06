@@ -61,6 +61,7 @@ $yellow-indian       : #E4A756;
 $million-grey       : #999999;
 
 $brushed-metal    : #C8C8C8;
+$peri-peri    : #C62C2C;
 
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
@@ -97,6 +98,7 @@ $custom-theme: (
   "yellow-indian"    : $yellow-indian,
   "million-grey"    : $million-grey,
   "brushed-metal"    : $brushed-metal,
+  "peri-peri"    : $peri-peri,
 
 );
 
@@ -326,9 +328,11 @@ body {
   width: 100%;
   fill: rgba(108, 101, 101, 0.50);
   backdrop-filter: blur(2px);
-  z-index: 1;
+  z-index: 2;
   background: #6C656580;
-  padding-top: 100px;
+  // padding-top: 100px;
   // display: flex;
   // justify-content: center;
 }
+
+

@@ -12,6 +12,7 @@ export class RouterService {
   public navigation(path: string): void;
   public navigation(path: string, queryParams: string): void;
   public navigation(path?: string, queryParams?: string) {
+    console.log(path)
     if (path && !queryParams) this.router.navigateByUrl(path);
     if (path && queryParams) {
       this.router.navigate([`path`], { queryParams: { page: queryParams } });

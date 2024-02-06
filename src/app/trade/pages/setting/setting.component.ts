@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MemberIdService } from 'src/app/services/member-id.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-setting',
@@ -18,18 +20,15 @@ import { Component } from '@angular/core';
 
                     <div class="bg-wolf hh-96 rounded-circle ww-96 overflow-hidden d-flex align-items-center justify-content-center">
                       <!-- <img src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" width="100" alt=""> -->
-                      <img src="assets/images/avatar-user.svg" width="50" alt="">
+                      <img [src]="profileService.profileImage|async" width="50" alt="">
                     </div>
 
                     <p class="my-2 fz-16 text-homeworld">แก้ไขรูปโปรไฟล์</p>
 
-
-
-
                   </li>
                   <li class="ps-4 mt-3 mb-3">
-                      <p class="mb-1 ff-16 text-maud ff-mm">ID: LHC0000019</p>
-                      <p class="mb-0 ff-16 text-warning ff-mm">Mr. Langhong  Trading</p>
+                      <p class="mb-1 ff-16 text-maud ff-mm">ID: {{ memberIdService.memberId$|async }}</p>
+                      <p class="mb-0 ff-16 text-warning ff-km">{{ profileService.fullName|async }}</p>
                   </li>
                   <li class=""><a routerLink="/setting" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact:true}"  class="ps-4 d-flex align-items-center link text-decoration-none fz-20 ff-kl text-mist d-block hh-50">ต้ังค่าบัญชี</a></li>
                   <li class=""><a routerLink="/setting/manage-password" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact:true}" class="ps-4 d-flex align-items-center link text-decoration-none fz-20 ff-kl text-mist d-block hh-50">รหัสผ่าน</a></li>
@@ -84,5 +83,7 @@ import { Component } from '@angular/core';
   ]
 })
 export class SettingComponent {
+
+  constructor(public profileService: ProfileService, public memberIdService: MemberIdService) {}
 
 }

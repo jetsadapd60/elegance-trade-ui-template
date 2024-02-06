@@ -87,7 +87,8 @@ import { BuySellConfirmService } from 'src/app/services/buy-sell-confirm.service
         /* height: calc(100%-20px); */
       }
     `
-  ]
+  ],
+  providers: []
 })
 export class BuySellComponent implements AfterViewInit {
 
@@ -103,7 +104,9 @@ export class BuySellComponent implements AfterViewInit {
    * @param e number 96 or 99
    */
   onSwitches(e: boolean) {
-    this.showTradeView = e;
+    this.showTradeView = !e;
+
+    console.log(e)
   }
 
   onChangeTab(e: number) {

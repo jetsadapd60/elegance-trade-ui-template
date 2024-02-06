@@ -43,6 +43,6 @@ import { TestService } from "../services/test.service";
 })
 export class AuthComponent {
     constructor(private testService: TestService) {
-        console.log(this.testService.url)
+        // console.log(this.testService.url)
     }
 }

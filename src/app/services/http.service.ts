@@ -1,36 +1,37 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { TokenService } from "./token.service";
-import { TokenEnum } from "../models/enum";
 import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
 
-    private header!: HttpHeaders;
-    private access_token: string | undefined;
+    constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient, private tokenService: TokenService) {
-
-        const token = this.tokenService.getAccess_token(TokenEnum.ACCESS_TOKEN);
-        token ? this.access_token = token:undefined;
-
-        this.initHeaders();
+    get<T>(url: string): Observable<T>;
+    get<T>(url: string, access_token: string): Observable<T>;
+    get(url: string, access_token?: string|undefined) {
+        if(access_token) {
+            return this.http.get(url, {headers: {Authorization: `Bearer ${access_token}`}})
+        }
+        return this.http.get(url);
     }
 
-    private initHeaders() {
-        this.header = new HttpHeaders({
-            'Content-Type':  'application/json',
-            "Authorization" : `Bearer ${this.access_token}`,
-        });
+    post<T>(url: string, data: unknown): Observable<T>;
+    post<T>(url: string, data: unknown, access_token: string): Observable<T>;
+    post<T>(url: string, data: unknown, access_token?: string): Observable<T> {
+        if(access_token) {
+            return this.http.post<T>(url, data, {headers: {Authorization: `Bearer ${access_token}`}});
+        };
+        return this.http.post<T>(url, data);
+    };
+
+    patch<T>(url: string, data: unknown): Observable<T>;
+    patch<T>(url: string, data: unknown, access_token: string): Observable<T>;
+    patch<T>(url: string, data: unknown, access_token?: string): Observable<T> {
+        if(access_token) {
+            return this.http.patch<T>(url, data, {headers: {Authorization: `Bearer ${access_token}`}});
+        };
+        return this.http.patch<T>(url, data);
     }
 
-    get<T>(addHead: boolean, url: string) {
-        if(addHead) return this.http.get<T>(url, { headers: this.header });
-        if(!addHead) return this.http.get<T>(url);
-    }
-
-    post(url: string, data: unknown) {
-        return this.http.post(url, data);
-    }
 }

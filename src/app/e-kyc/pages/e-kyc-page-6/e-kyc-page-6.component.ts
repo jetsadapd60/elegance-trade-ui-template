@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { UserStorage } from "src/app/models/enum";
+import { AigenService } from "src/app/services/aigen.service";
+import { EKycService } from "src/app/services/e-kyc.service";
+import { LocalStorageService } from "src/app/services/local-storage.service";
+import { PopupService } from "src/app/services/popup.service";
 import { RouterService } from "src/app/services/router.service";
+import { SpinnerService } from "src/app/services/spinner.service";
 
 @Component({
     selector: 'app-ekyc-page-6',
     template: `
-  <div class="wrap px-5 pt-3 pt-xl-5">
-        <div class="layout rounded-4 bg-white overflow-hidden d-flex">
+  <div class="overflow-hidden pt-3 pt-xl-3 px-5 py-3 wrap ">
+        <div class="layout rounded-4 bg-white overflow-hidden d-flex h-100">
           <div class="layout__left ">
             <div class="wrap-hero h-100 rounded-4 d-flex justify-content-center align-items-center">
               <img src="assets/images/e-kyc-logo.svg" class="hero-image w-50" alt="">
@@ -34,7 +40,7 @@ import { RouterService } from "src/app/services/router.service";
 
                     <div class="group-btn d-flex justify-content-center gap-4">
                     <button (click)="router.navigation('/')" class="btn ff-kl border rounded text-apple border-apple">ไว้ก่อน</button>
-                    <button (click)="router.navigation('/')" class="btn ff-kl btn-apple rounded">ดำเนินการ</button>
+                    <button (click)="onContinue()" class="btn ff-kl btn-apple rounded">ดำเนินการ</button>
                 </div>
                 </div>
             </div>
@@ -45,6 +51,7 @@ import { RouterService } from "src/app/services/router.service";
 
     
     `,
+    providers: [EKycService],
     styles: [`
     
     .wrap {
@@ -153,6 +160,58 @@ import { RouterService } from "src/app/services/router.service";
     `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EkycPage6Component {
-    constructor(protected router: RouterService) {}
+export class EkycPage6Component implements OnInit, OnDestroy {
+    constructor(
+        protected   router        : RouterService,
+        private     spinnerService: SpinnerService,
+        private     popupService  : PopupService,
+        private     storageService: LocalStorageService,
+        private     ekycService   : EKycService,
+        ) {}
+
+
+    ngOnInit(): void {}
+
+    onContinue() {
+        const access_token = this.storageService.getItem<string>(UserStorage.USER_ACCESS_TOKEN);
+        if(!access_token) return;
+
+        this.spinnerService.open();
+
+        const next = (res: any) => {
+            this.spinnerService.close();
+            // incomplete
+            if(res && !res.status) {
+                this.popupService.open({
+                    type: "error",
+                    icon:  "error",
+                    textHead: "ไม่สำเร็จ",
+                    disc: res.message,
+                    btnLabel: "ดำเนิการต่อ",
+                    confirm: () => {
+                      // this.router.navigation('/setting');
+                    }
+                  });
+            }
+
+            // complete
+            if(res && res.status) {
+                this.popupService.open({
+                    type: "complete",
+                    icon:  "complete",
+                    textHead: "สำเร็จ",
+                    disc: res.message,
+                    btnLabel: "ดำเนิการต่อ",
+                    confirm: () => {
+                      this.router.navigation('/setting');
+                    }
+                  });
+            }
+        }
+        this.ekycService.end(access_token).subscribe({ next });
+    }
+
+    ngOnDestroy(): void {
+        
+    }
 }

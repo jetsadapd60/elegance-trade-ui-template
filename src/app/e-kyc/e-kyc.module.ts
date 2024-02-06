@@ -10,6 +10,7 @@ import { EKycComponent      } from './e-kyc.component';
   imports: [
     SharedModule,
     EKycRoutingModule,
+    
   ]
 })
 export class EKycModule { }

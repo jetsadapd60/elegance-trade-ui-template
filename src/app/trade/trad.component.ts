@@ -1,143 +1,34 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuModel } from '../models/menu.medel';
-import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
+import { ProfileService } from '../services/profile.service';
 @Component({
   selector: 'app-trad',
   template: `
 
   <app-modal></app-modal>
   <app-buy-sell-confirm></app-buy-sell-confirm>
+  
+  <!-- Header -->
+  <app-trade-header></app-trade-header>
 
-    <!--  -->
-    <div class="container rounded-bottom-4">
-      <div class="card top-bar bg-milk rounded-0 rounded-bottom-4 py-0">
-        <div class="card-body py-0" style="min-height: 88px;">
-          <div class="row py-2 pb-1">
-            <div class="col-xl-3 text-center text-xl-start ">
-              <img src="assets/images/lhc-brand.svg" style="width: auto; max-width: 53.56px" alt="">
-              <img src="assets/images/lhc-logo.svg" style="width: auto; max-width: 107px" alt="">
-            </div>
-            <div class="col-xl-5 ">
-              <div class="row">
-                <div class="col-10 ">
-                  <input type="text" placeholder="Customer ID/Name" class="border px-3 rounded-pill fz-15 w-100 h-100">
-                </div>
-                <div class="col-2  py-3">
-                  <span type="button" class="text-mauve text-decoration-underline">Clear</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-4 ">
-              <div class="row">
-                <div class="col-3  p-0 text-center">
-                  <img src="assets/images/default-avata.svg" style="width: auto; max-width: 60px" alt="">
-                </div>
-                <div class="col-5 ">
-                  <div class="mb-0">
-                    <span>สวัสดี, </span> 
-                    <span class="text-maud"> 000019</span>
-                  </div>
-                  <div class="text-orange" style="font-size: 20px;">LHC Trading</div>
-                </div>
-                <div class="col-3  p-0">
-                  <p class="py-1 m-0 bg-green text-center text-drone rounded">ยืนยันตัวตน</p>
-                  <div class="text-center">
-                    <span class="text-charcoal" style="font-size: 18px;">Level 1</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+  <!-- menu -->
+  <app-menu [menus]="menus" (onClick)="singOut()"></app-menu>
+
+
+  <!-- Tab -->
+  <app-tab></app-tab>
+
+
+  <div class="container"> 
+    <div class="card rounded-0 rounded-bottom-4 border-0 wrap-content shadow">
+      <div class="card-body">
+        <router-outlet></router-outlet>
       </div>
+      <app-footer></app-footer>
     </div>
-
-    <!-- menu -->
-    <div class="container px-5">
-      <div class="row">
-        <div class="col-6 col-md-2 col-xl-2 mb-2 mb-xl-0 pb-0"  routerLink="{{menu.link}}"  *ngFor="let menu of menus">
-          <div class="align-items-center d-flex justify-content-center menu-link py-2 text-center"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" type="button">
-            <img class="pe-2" [src]="menu.icon" alt="">
-            <span class="fz-20">{{menu.label}}</span>
-          </div>
-        </div>
-        <div class="col-6 col-md-2 col-xl-2">
-          <div class="row justify-content-end h-100 align-items-center gap-3 gap-xl-5 pe-4">
-            <div class="col-2" type="button">
-            <img src="assets/images/icons-menu/bell.svg" alt="">
-          </div>
-          <div class="col-2" type="button">
-              <img src="assets/images/icons-menu/signout.svg" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--  -->
-    <div class="container-fluid tab-f" style="min-height: 56px;">
-      <div class="container h-100">
-        <div class="row h-100">
-          <div class="col-md-6 col-xl-4 py-0">
-            <div class="border-0 card h-100 px-5 rounded-0 tab-l">
-              <div class="row pt-1">
-                <div class="align-items-start col-6 d-flex ps-0 py-1">
-                  <img src="assets/images/flag.svg" style="max-width: 35px;" alt="">
-                  <div class="">
-                    <p class="m-0 text-white ff-kr fz-22" style="line-height: 1;">USDTHB</p>
-                    <span class="text-danger ff-mm fz-14">-0.080</span>
-                  </div>
-                </div>
-                <div class="align-items-start col-6 d-flex justify-content-between py-1">
-                  <span class="text-glaze ff-mm fz-22" style="line-height: 1;">34.67</span>
-                  <span class="text-nacho ff-mm fz-22" style="line-height: 1;">34.69</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-xl-4 py-0">
-            <div class="border-0 card h-100 px-5 rounded-0 tab-l">
-              <div class="row pt-1">
-                <div class="align-items-start col-6 d-flex ps-0 py-1">
-                  <img src="assets/images/gold.svg" style="max-width: 35px;" alt="">
-                  <div class="">
-                    <p class="m-0 text-white ff-kr fz-22" style="line-height: 1;">XAUUSD</p>
-                    <span class="text-green ff-mm fz-14">+0.080</span>
-                  </div>
-                </div>
-                <div class="align-items-start col-6 d-flex justify-content-between py-1">
-                  <span class="text-glaze ff-mm fz-22" style="line-height: 1;">34.67</span>
-                  <span class="text-nacho ff-mm fz-22" style="line-height: 1;">34.69</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-12 col-xl-4 py-0">
-            <div class="card border-0 h-100 rounded-0 px-5" style="background: transparent;">
-              <div class="row h-100">
-                <div class="col-xl-9 offset-0 offset-xl-3 h-100 align-items-center d-flex justify-content-center  justify-content-xl-end pe-0">
-                  <p class="mb-0 text-center text-xl-end text-white">{{date|date:'dd/MM/yyyy hh:mm:ss':'UTC+7' }} (UTC+7)</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container"> 
-      <div class="card rounded-0 rounded-bottom-4 border-0 wrap-content shadow">
-        <div class="card-body">
-          <router-outlet></router-outlet>
-        </div>
-        <app-footer></app-footer>
-      </div>
-    </div>
+  </div>
 
   `,
   styles: [`
@@ -149,60 +40,6 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
         width: 100%;
         height: 100%;
         overflow: scroll;
-      }
-
-      ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-          /* Firefox */
-          color: #C1C1C1;
-        }
-
-        :-ms-input-placeholder { /* Internet Explorer 10-11 */
-          /* color: red; */
-          color: #C1C1C1;
-        }
-
-        ::-ms-input-placeholder { /* Microsoft Edge */
-          /* color: red; */
-          color: #C1C1C1;
-        }
-
-      .wrap-bar {
-
-      }
-
-      .badge {
-        width: 30px;
-        height: 30px;
-        top: 5px;
-        right: -25px;
-        font-size: .8rem;
-      }
-
-      .active {
-        background: rgb(253,255,254);
-        background: linear-gradient(180deg, rgba(253,255,254,1) 0%, rgba(146,0,238,0) 100%);
-      }
-      
-      .menu-link {
-        color: var(--color-chianti);
-        font-size: 1rem;
-      }
-
-      .tab-full {
-        background: rgba(132, 123,101, 1);
-      }
-      
-      .tab-f {
-        background: rgba(154, 143, 117, 1);
-      }
-
-      .tab-l {
-        background: rgb(54,51,44);
-        background: linear-gradient(0deg, rgba(54,51,44,1) 0%, rgba(154,143,117,1) 100%);
-      }
-
-      .top-bar {
-        /* box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.05); */
       }
 
       .card {
@@ -217,19 +54,16 @@ import { ConfirmEventType, ConfirmationService, MessageService  } from 'primeng/
   providers: [ConfirmationService, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TradComponent implements OnInit, OnDestroy {
+export class TradComponent implements OnDestroy {
 
-  date = new Date();
+  
   private intervalId: any;
 
   constructor(
-                private ref: ChangeDetectorRef,
-                private confirmationService: ConfirmationService, 
-                private messageService: MessageService) {}
-
-  ngOnInit(): void {
-    this.nowDate()
-  }
+    private ref: ChangeDetectorRef,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    ) { }
 
 
   menus: MenuModel[] = [
@@ -240,30 +74,29 @@ export class TradComponent implements OnInit, OnDestroy {
     { id: '105', label: 'ตั้งค่าบัญชี', icon: 'assets/images/icons-menu/setting.svg', link: '/setting' },
   ]
 
-  private nowDate() {
-    this.intervalId = setInterval(() => {
-      this.date = new Date();
-      this.ref.markForCheck();
-    }, 1000);
+
+  singOut() {
+    localStorage.clear();
+    
   }
 
 
   confirm1() {
     this.confirmationService.confirm({
-        icon: 'pi pi-cloud',
-        accept: this.accept,
-        reject: (type: ConfirmEventType) => {
-            switch (type) {
-                case ConfirmEventType.REJECT:
-                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-                    break;
-                case ConfirmEventType.CANCEL:
-                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
-                    break;
-            }
+      icon: 'pi pi-cloud',
+      accept: this.accept,
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
         }
+      }
     });
-}
+  }
 
   private accept() {
     console.log('ok')
@@ -271,6 +104,6 @@ export class TradComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
-  }  
+  }
 
 }

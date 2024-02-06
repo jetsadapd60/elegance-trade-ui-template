@@ -26,6 +26,7 @@ import { HeaderComponent } from './features/header.component';
 import { FootterComponent } from './features/footter.component';
 import { ModalComponent } from './features/modal.component';
 import { ButtonComponent } from './features/button.component';
+import { AutoFocusInputDirective } from './directives/auto-focus-input.directive';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { ButtonComponent } from './features/button.component';
     HeaderComponent,
     FootterComponent,
     ModalComponent,
-    ButtonComponent
+    ButtonComponent,
+    AutoFocusInputDirective
   ],
   exports: [
     CommonModule,
@@ -76,7 +78,8 @@ import { ButtonComponent } from './features/button.component';
     HeaderComponent,
     FootterComponent,
     ModalComponent,
-    ButtonComponent
+    ButtonComponent,
+    AutoFocusInputDirective,
   ],
 })
 export class SharedModule {}

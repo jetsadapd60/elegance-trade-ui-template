@@ -132,6 +132,12 @@ export class OtpAndPinComponent
     console.log(changes);
   }
 
+  reset() {
+    this.inputs.forEach(item=> {
+      item.nativeElement.value = '';
+    });
+  }
+
   private setupInput(inputs: ElementRef[]) {
     inputs[0].nativeElement.focus();
     inputs.forEach((item, currentIndex) => {
@@ -160,7 +166,6 @@ export class OtpAndPinComponent
 
       // เพิ่มตัวเลขในแต่ละช่อง
       input.addEventListener('input', (e: Event) => {
-        console.log(e);
         let inputValue = input.value.trim();
 
         if (!/^\d$/.test(inputValue)) {
